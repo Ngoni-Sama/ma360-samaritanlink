@@ -38,3 +38,6 @@ yarn-error.log*
 
 .vercel
 .env*
+
+# wrangler deploy logs
+deploy-worker*.out
