@@ -1,0 +1,212 @@
+// MA360 SamaritanLink — relational schema (proof-of-concept).
+//
+// Local dev uses SQLite (provider = "sqlite", DATABASE_URL="file:./dev.db").
+// Production targets PostgreSQL: change the provider below to "postgresql".
+// Enum fields are modelled as String for SQLite portability; switch to native
+// Prisma enums when moving to Postgres. See DATABASE.md for the migration path.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Identity & roles
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  phone        String?
+  role         String // patient | health_worker | professional | pharmacy | admin
+  passwordHash String
+  status       String   @default("active") // active | suspended
+  createdAt    DateTime @default(now())
+
+  patient      Patient?
+  healthWorker HealthWorker?
+  professional Professional?
+  auditLogs    AuditLog[]
+
+  screeningsRecorded  Screening[]         @relation("ScreeningRecordedBy")
+  diagnosticsRequested DiagnosticRequest[] @relation("DiagnosticRequestedBy")
+}
+
+model Patient {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  dateOfBirth DateTime?
+  sex         String? // female | male | other | unspecified
+  location    String?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  screenings         Screening[]
+  consultations      Consultation[]
+  prescriptions      Prescription[]
+  referrals          Referral[]
+  diagnosticRequests DiagnosticRequest[]
+  homeVisits         HomeVisit[]
+  followups          Followup[]
+}
+
+model HealthWorker {
+  id       String @id @default(cuid())
+  userId   String @unique
+  location String?
+  status   String @default("active")
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  homeVisits HomeVisit[]
+}
+
+model Professional {
+  id                 String @id @default(cuid())
+  userId             String @unique
+  profession         String // doctor | nurse | nutritionist | ...
+  registrationNumber String?
+  status             String @default("active")
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  consultations Consultation[]
+  prescriptions Prescription[]
+}
+
+// ---------------------------------------------------------------------------
+// Clinical & care-navigation entities
+// ---------------------------------------------------------------------------
+
+model Screening {
+  id            String   @id @default(cuid())
+  patientId     String
+  recordedById  String
+  screeningType String // community | chronic | maternal | ...
+  measurements  String // JSON string: { bp, glucose, temp, spo2, bmi, ... }
+  status        String // within_range | requires_followup | requires_urgent_attention
+  createdAt     DateTime @default(now())
+
+  patient    Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  recordedBy User    @relation("ScreeningRecordedBy", fields: [recordedById], references: [id])
+}
+
+model Consultation {
+  id             String    @id @default(cuid())
+  patientId      String
+  professionalId String?
+  type           String // general | chronic | nutrition | maternal | mental | pharmacy | specialist
+  status         String    @default("requested") // requested | scheduled | in_progress | completed | cancelled
+  scheduledAt    DateTime?
+  notes          String?
+
+  patient      Patient       @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  professional Professional? @relation(fields: [professionalId], references: [id])
+}
+
+model Prescription {
+  id             String   @id @default(cuid())
+  patientId      String
+  professionalId String?
+  status         String   @default("issued") // issued | reserved | ready | dispensed
+  createdAt      DateTime @default(now())
+
+  patient      Patient       @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  professional Professional? @relation(fields: [professionalId], references: [id])
+  medications  Medication[]
+}
+
+model Medication {
+  id             String @id @default(cuid())
+  prescriptionId String
+  name           String
+  dosage         String?
+  frequency      String?
+  duration       String?
+
+  prescription Prescription @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+}
+
+model Pharmacy {
+  id       String @id @default(cuid())
+  name     String
+  location String?
+  status   String @default("active")
+
+  inventory MedicineInventory[]
+}
+
+model MedicineInventory {
+  id                 String @id @default(cuid())
+  pharmacyId         String
+  medicineName       String
+  quantity           Int    @default(0)
+  availabilityStatus String @default("available") // available | limited | out_of_stock
+
+  pharmacy Pharmacy @relation(fields: [pharmacyId], references: [id], onDelete: Cascade)
+}
+
+model Referral {
+  id           String   @id @default(cuid())
+  patientId    String
+  fromProvider String?
+  toProvider   String?
+  reason       String?
+  status       String   @default("created") // created | patient_notified | facility_identified | appointment | completed | followup
+  createdAt    DateTime @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+}
+
+model DiagnosticRequest {
+  id            String   @id @default(cuid())
+  patientId     String
+  requestedById String
+  testName      String
+  status        String   @default("requested") // requested | in_progress | result_available
+  result        String?
+  createdAt     DateTime @default(now())
+
+  patient     Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  requestedBy User    @relation("DiagnosticRequestedBy", fields: [requestedById], references: [id])
+}
+
+model HomeVisit {
+  id             String   @id @default(cuid())
+  patientId      String
+  healthWorkerId String
+  visitDate      DateTime
+  purpose        String?
+  status         String   @default("scheduled") // scheduled | completed | escalation_required
+  notes          String?
+
+  patient      Patient      @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  healthWorker HealthWorker @relation(fields: [healthWorkerId], references: [id])
+}
+
+model Followup {
+  id          String    @id @default(cuid())
+  patientId   String
+  type        String // appointment | refill | diagnostic | home_visit
+  scheduledAt DateTime?
+  status      String    @default("pending") // pending | completed | missed
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------------------------
+// Audit
+// ---------------------------------------------------------------------------
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  timestamp DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+}

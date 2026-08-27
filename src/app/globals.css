@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply text-ink-900 antialiased;
+    background:
+      radial-gradient(1100px 600px at 12% -8%, rgba(57, 188, 188, 0.20), transparent 60%),
+      radial-gradient(900px 500px at 92% 4%, rgba(21, 102, 107, 0.16), transparent 55%),
+      linear-gradient(180deg, #f3f8fb 0%, #eaf1f6 40%, #eef3f7 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Restrained glassmorphism — readable first, decorative second. */
+  .glass {
+    @apply border border-white/60 bg-white/70 shadow-glass backdrop-blur-md;
+  }
+  .glass-strong {
+    @apply border border-white/70 bg-white/85 shadow-glass backdrop-blur-lg;
+  }
+  .glass-panel {
+    @apply rounded-3xl border border-white/60 bg-white/70 shadow-glass backdrop-blur-md;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-glass hover:bg-brand-700;
+  }
+  .btn-secondary {
+    @apply btn border border-brand-200 bg-white/70 text-brand-800 backdrop-blur hover:bg-white;
+  }
+  .btn-ghost {
+    @apply btn text-ink-700 hover:bg-white/60;
+  }
+}
