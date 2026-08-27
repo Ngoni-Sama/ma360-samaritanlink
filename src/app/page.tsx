@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { Icon } from "@/components/ui/Icon";
+import { Brand } from "@/components/ui/Brand";
 import { GlassCard, SectionTitle } from "@/components/ui/primitives";
 
 const JOURNEY = [
@@ -38,47 +39,59 @@ const PARTNERS = [
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen pb-16">
+    <main className="min-h-screen">
       <LandingNav />
 
-      {/* Hero */}
-      <section className="mx-auto max-w-6xl px-4 pt-14 sm:pt-20">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="animate-fade-up">
-            <span className="pill border border-brand-200 bg-white/70 text-brand-700">
+      {/* Hero — full-bleed, matching medaccess360.com */}
+      <section className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/ma360-hero.png')" }}
+          aria-hidden
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-950/90 via-brand-800/80 to-brand-600/55" aria-hidden />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="animate-fade-up text-white">
+            <span className="pill border border-white/25 bg-white/10 text-white">
               <Icon name="ShieldCheck" className="h-3.5 w-3.5" />
               A digital-health service of MedAccess360 Foundation
             </span>
-            <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] text-ink-900 sm:text-5xl">
-              MA360 SamaritanLink
-            </h1>
-            <p className="mt-3 text-xl font-semibold text-brand-700 sm:text-2xl">
-              Care That Crosses the Distance.
-            </p>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-600 sm:text-lg">
+            <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] sm:text-5xl">MA360 SamaritanLink</h1>
+            <p className="mt-3 text-xl font-semibold text-brand-100 sm:text-2xl">Care That Crosses the Distance.</p>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
               A connected digital-health extension platform linking people to health navigation,
-              screening, clinical care, diagnostics, medicines, referrals and continuous follow-up.
+              screening, clinical care, diagnostics, medicines, referrals and continuous follow-up —
+              extending MedAccess360 care beyond clinic and pharmacy walls across Zimbabwe.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/login" className="btn-primary">
                 Access SamaritanLink
                 <Icon name="ArrowRight" className="h-4 w-4" />
               </Link>
-              <a href="#solution" className="btn-secondary">How It Works</a>
-              <a href="#partners" className="btn-ghost">Partner With Us</a>
+              <a href="#solution" className="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white/20">
+                How It Works
+              </a>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {["Established 2025", "Pharmacy-led", "Community-based", "Zimbabwe"].map((t) => (
+                <span key={t} className="pill border border-white/20 bg-white/10 text-white/90">
+                  <Icon name="CheckCircle2" className="h-3.5 w-3.5" />
+                  {t}
+                </span>
+              ))}
             </div>
           </div>
 
           <div className="animate-fade-up">
-            <GlassCard className="relative overflow-hidden">
+            <div className="rounded-3xl border border-white/60 bg-white/90 p-5 shadow-glass-lg backdrop-blur sm:p-6">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-ink-700">The connected patient journey</p>
+                <p className="text-sm font-semibold text-ink-800">The connected patient journey</p>
                 <Icon name="HeartPulse" className="h-5 w-5 text-brand-600" />
               </div>
               <div className="mt-4 space-y-2.5">
                 {["Need identified", "Community screening", "Clinical assessment", "Diagnostics & medicines", "Referral & home follow-up"].map(
                   (step, i) => (
-                    <div key={step} className="flex items-center gap-3 rounded-2xl border border-white/60 bg-white/60 px-4 py-3">
+                    <div key={step} className="flex items-center gap-3 rounded-2xl border border-brand-100 bg-brand-50/60 px-4 py-3">
                       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white">
                         {i + 1}
                       </span>
@@ -88,7 +101,7 @@ export default function LandingPage() {
                   ),
                 )}
               </div>
-            </GlassCard>
+            </div>
           </div>
         </div>
       </section>
@@ -206,21 +219,41 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="mx-auto mt-24 max-w-6xl px-4">
-        <div className="glass-panel flex flex-col items-start justify-between gap-4 px-6 py-6 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 text-white">
-              <Icon name="HeartHandshake" className="h-5 w-5" />
-            </span>
-            <div className="text-sm">
-              <p className="font-bold text-ink-900">MA360 SamaritanLink</p>
-              <p className="text-ink-500">A service of MedAccess360 Foundation · medaccess360.com</p>
+      {/* Footer — dark teal band, matching medaccess360.com */}
+      <footer className="mt-24 bg-brand-950 text-white">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+          <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
+            <div className="max-w-sm">
+              <Brand variant="full" onDark />
+              <p className="mt-4 text-sm leading-relaxed text-white/70">
+                MedAccess360 Foundation is a pharmacy-led health-extension organisation bridging the
+                gap between patients and existing healthcare providers across Zimbabwe. SamaritanLink
+                is its connected digital-health service.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-brand-200">MedAccess360</p>
+                <ul className="mt-3 space-y-2 text-sm text-white/80">
+                  <li><a href="https://medaccess360.com/about" className="hover:text-white">About</a></li>
+                  <li><a href="https://medaccess360.com/our-work" className="hover:text-white">Our Work</a></li>
+                  <li><a href="https://medaccess360.com/get-involved" className="hover:text-white">Get Involved</a></li>
+                  <li><a href="https://medaccess360.com" className="inline-flex items-center gap-1 hover:text-white">medaccess360.com <Icon name="ExternalLink" className="h-3 w-3" /></a></li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-brand-200">Contact</p>
+                <ul className="mt-3 space-y-2 text-sm text-white/80">
+                  <li><a href="mailto:contact@medaccess360.com" className="inline-flex items-center gap-1.5 hover:text-white"><Icon name="Mail" className="h-3.5 w-3.5" /> contact@medaccess360.com</a></li>
+                  <li><Link href="/login" className="hover:text-white">Access SamaritanLink</Link></li>
+                </ul>
+              </div>
             </div>
           </div>
-          <p className="text-xs text-ink-400">
-            Prototype / proof-of-concept. All data shown is synthetic demo data.
-          </p>
+          <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} MedAccess360 Foundation. Established 2025.</p>
+            <p>SamaritanLink is a prototype / proof-of-concept. All data shown is synthetic demo data.</p>
+          </div>
         </div>
       </footer>
     </main>
