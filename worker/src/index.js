@@ -8,7 +8,7 @@
 // prompt forbids diagnosis, prescription and emergency decision-making, and asks
 // the model to direct users to urgent care for red-flag symptoms.
 
-const MODEL = "@cf/meta/llama-3.1-8b-instruct";
+const MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8";
 
 const SYSTEM_PROMPT = `You are the "AI Health Navigation Assistant" for MA360 SamaritanLink, a digital-health platform of the MedAccess360 Foundation in Zimbabwe.
 
