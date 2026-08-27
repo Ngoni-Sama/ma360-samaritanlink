@@ -1,0 +1,8 @@
+name = "samaritanlink-navigator"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+workers_dev = true
+
+# Workers AI binding — no API key needed at runtime; the account authorizes it.
+[ai]
+binding = "AI"
