@@ -4,8 +4,8 @@ import {
   PharmacyDashboard, ProfessionalDashboard,
 } from "@/components/app/dashboards";
 
-export default function DashboardHome() {
-  const user = getCurrentUser();
+export default async function DashboardHome() {
+  const user = await getCurrentUser();
   if (!user) return null; // layout guards this
 
   switch (user.role) {

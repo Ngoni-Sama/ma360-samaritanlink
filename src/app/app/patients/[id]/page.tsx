@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/lib/session";
-import { PATIENTS, providerForRole } from "@/lib/data/connected";
+import { db } from "@/lib/db";
+import type { JourneyEvent } from "@/lib/data/connected";
 import { Icon } from "@/components/ui/Icon";
 import { GlassCard, Tag } from "@/components/ui/primitives";
 import { PageHeader } from "@/components/app/PageHeader";
@@ -29,13 +30,17 @@ const FLAG_TONE: Record<string, "green" | "amber" | "rose"> = {
   normal: "green", borderline: "amber", high: "rose", low: "amber",
 };
 
-export default function PatientProfile({ params }: { params: { id: string } }) {
-  const user = getCurrentUser();
+export default async function PatientProfile({ params }: { params: { id: string } }) {
+  const user = await getCurrentUser();
   if (!user) return null;
-  const patient = PATIENTS.find((p) => p.patientId.toLowerCase() === decodeURIComponent(params.id).toLowerCase());
+  const patient = await db.patient.findUnique({
+    where: { patientId: decodeURIComponent(params.id) },
+    include: { medications: true, labResults: true, journey: true, documents: true },
+  });
   if (!patient) notFound();
 
   const v = visibility(user.role);
+  const journey = patient.journey as unknown as JourneyEvent[];
 
   return (
     <>
@@ -151,7 +156,7 @@ export default function PatientProfile({ params }: { params: { id: string } }) {
             <DoctorActions
               patientId={patient.patientId}
               patientName={patient.name}
-              providerId={providerForRole(user.role)?.providerId ?? "SL-DR-000245"}
+              providerId={user.providerId ?? "SL-DR-000245"}
             />
           )}
 
@@ -162,7 +167,7 @@ export default function PatientProfile({ params }: { params: { id: string } }) {
                 <Icon name="Route" className="h-5 w-5 text-brand-600" />
               </div>
               <p className="mb-4 mt-1 text-xs text-ink-500">One connected history across every provider.</p>
-              <CareJourney events={patient.journey} simple={user.role === "admin"} />
+              <CareJourney events={journey} simple={user.role === "admin"} />
             </GlassCard>
           )}
 

@@ -3,13 +3,12 @@ import { GlassCard } from "@/components/ui/primitives";
 import { PageHeader } from "@/components/app/PageHeader";
 import { REFERRAL_TIMELINE } from "@/lib/data/demo";
 import { getCurrentUser } from "@/lib/session";
-import { providerForRole } from "@/lib/data/connected";
 import { ReferralTracker } from "@/components/app/workflow/ReferralTracker";
 
-export default function ReferralsPage() {
-  const user = getCurrentUser();
+export default async function ReferralsPage() {
+  const user = await getCurrentUser();
   const canCreate = user?.role === "professional" || user?.role === "health_worker" || user?.role === "admin";
-  const from = (user && providerForRole(user.role)?.providerId) || "SL-DR-000245";
+  const from = user?.providerId || "SL-DR-000245";
 
   return (
     <>

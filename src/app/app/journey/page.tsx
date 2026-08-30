@@ -1,14 +1,20 @@
+import { notFound } from "next/navigation";
 import { Icon } from "@/components/ui/Icon";
 import { GlassCard } from "@/components/ui/primitives";
 import { PageHeader } from "@/components/app/PageHeader";
 import { CareJourney } from "@/components/app/CareJourney";
-import { PATIENTS } from "@/lib/data/connected";
+import { db } from "@/lib/db";
+import type { JourneyEvent } from "@/lib/data/connected";
 
-// The patient-facing "My Care Journey" — a simple, reassuring view of where the
-// person is, what has happened, and what comes next. Demo patient = Tendai Moyo.
-export default function MyJourneyPage() {
-  const patient = PATIENTS[0];
-  const next = patient.journey.find((e) => e.status === "scheduled" || e.status === "active");
+// The patient-facing "My Care Journey". Demo patient = Tendai Moyo.
+export default async function MyJourneyPage() {
+  const patient = await db.patient.findUnique({
+    where: { patientId: "SL-P-2026-000001" },
+    include: { journey: true },
+  });
+  if (!patient) notFound();
+  const journey = patient.journey as unknown as JourneyEvent[];
+  const next = journey.find((e) => e.status === "scheduled" || e.status === "active");
 
   return (
     <>
@@ -32,7 +38,7 @@ export default function MyJourneyPage() {
       )}
 
       <GlassCard>
-        <CareJourney events={patient.journey} simple />
+        <CareJourney events={journey} simple />
       </GlassCard>
     </>
   );
