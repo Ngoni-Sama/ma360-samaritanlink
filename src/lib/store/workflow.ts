@@ -19,6 +19,11 @@ export const LAB_FLOW: LabStatus[] = ["requested", "sample_collected", "processi
 
 export type ApptStatus = "scheduled" | "confirmed" | "completed" | "missed" | "rescheduled";
 
+export type ReferralStatus = "created" | "patient_notified" | "facility_identified" | "appointment" | "completed" | "followup";
+export const REFERRAL_FLOW: ReferralStatus[] = ["created", "patient_notified", "facility_identified", "appointment", "completed", "followup"];
+
+export type VisitStatus = "scheduled" | "completed" | "escalated";
+
 export interface Prescription {
   id: string;
   patientId: string;
@@ -52,6 +57,27 @@ export interface Appointment {
   createdAt: number;
 }
 
+export interface Referral {
+  id: string;
+  patientId: string;
+  patientName: string;
+  from: string;
+  to: string;
+  reason: string;
+  status: ReferralStatus;
+  createdAt: number;
+}
+
+export interface HomeVisit {
+  id: string;
+  patientId: string;
+  patientName: string;
+  purpose: string;
+  when: string;
+  status: VisitStatus;
+  outcome?: string;
+}
+
 export interface Notification {
   id: string;
   to: "patient" | "doctor" | "pharmacy" | "laboratory";
@@ -64,6 +90,8 @@ export interface WorkflowState {
   prescriptions: Prescription[];
   labs: LabRequest[];
   appointments: Appointment[];
+  referrals: Referral[];
+  homeVisits: HomeVisit[];
   notifications: Notification[];
 }
 
@@ -82,6 +110,13 @@ function seed(): WorkflowState {
     ],
     appointments: [
       { id: "ap-seed1", patientId: "SL-P-2026-000001", patientName: "Tendai Moyo", purpose: "30-day hypertension review", when: "2026-09-20 10:30", status: "scheduled", createdAt: now },
+    ],
+    referrals: [
+      { id: "rf-seed1", patientId: "SL-P-2026-000003", patientName: "Blessing Ncube", from: "SL-CHW-000320", to: "Harare Central Hospital", reason: "Uncontrolled hypertension — urgent review", status: "facility_identified", createdAt: now - 5400_000 },
+    ],
+    homeVisits: [
+      { id: "hv-seed1", patientId: "SL-P-2026-000001", patientName: "Tendai Moyo", purpose: "Blood-pressure check", when: "2026-09-05 14:00", status: "scheduled" },
+      { id: "hv-seed2", patientId: "SL-P-2026-000003", patientName: "Blessing Ncube", purpose: "Urgent review escort", when: "Today 15:30", status: "scheduled" },
     ],
     notifications: [],
   };
@@ -174,6 +209,36 @@ export const workflow = {
         if (a.id !== id) return a;
         if (status === "missed") notify({ to: "doctor", channel: "In-app", text: `${a.patientName} missed "${a.purpose}". Follow-up task created.` });
         return { ...a, status };
+      }),
+    };
+    emit();
+  },
+  createReferral(p: { patientId: string; patientName: string; from: string; to: string; reason: string }) {
+    const rf: Referral = { id: uid(), status: "created", createdAt: Date.now(), ...p };
+    state = { ...state, referrals: [rf, ...state.referrals] };
+    notify({ to: "patient", channel: "SMS", text: `A referral has been created for you to ${p.to}. You will be contacted with the next steps.` });
+    emit();
+  },
+  advanceReferral(id: string) {
+    state = {
+      ...state,
+      referrals: state.referrals.map((r) => {
+        if (r.id !== id) return r;
+        const i = REFERRAL_FLOW.indexOf(r.status);
+        const next = REFERRAL_FLOW[Math.min(i + 1, REFERRAL_FLOW.length - 1)];
+        if (next === "completed") notify({ to: "patient", channel: "In-app", text: `Your referral to ${r.to} is complete. A follow-up will be arranged.` });
+        return { ...r, status: next };
+      }),
+    };
+    emit();
+  },
+  completeHomeVisit(id: string, outcome: string, escalate: boolean) {
+    state = {
+      ...state,
+      homeVisits: state.homeVisits.map((h) => {
+        if (h.id !== id) return h;
+        if (escalate) notify({ to: "doctor", channel: "In-app", text: `Home visit for ${h.patientName}: escalation required — ${outcome}` });
+        return { ...h, status: escalate ? "escalated" : "completed", outcome };
       }),
     };
     emit();

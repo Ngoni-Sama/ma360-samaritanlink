@@ -2,12 +2,24 @@ import { Icon } from "@/components/ui/Icon";
 import { GlassCard } from "@/components/ui/primitives";
 import { PageHeader } from "@/components/app/PageHeader";
 import { REFERRAL_TIMELINE } from "@/lib/data/demo";
+import { getCurrentUser } from "@/lib/session";
+import { providerForRole } from "@/lib/data/connected";
+import { ReferralTracker } from "@/components/app/workflow/ReferralTracker";
 
 export default function ReferralsPage() {
+  const user = getCurrentUser();
+  const canCreate = user?.role === "professional" || user?.role === "health_worker" || user?.role === "admin";
+  const from = (user && providerForRole(user.role)?.providerId) || "SL-DR-000245";
+
   return (
     <>
       <PageHeader title="Referral Tracker" subtitle="Follow every referral from creation to completion and follow-up." />
 
+      <div className="mb-4">
+        <ReferralTracker canCreate={canCreate} from={from} />
+      </div>
+
+      <h2 className="mb-3 text-sm font-bold text-ink-900">Example — connected referral timeline</h2>
       <GlassCard>
         <div className="flex items-center justify-between">
           <div>

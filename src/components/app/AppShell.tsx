@@ -12,6 +12,7 @@ const NAV: Record<Role, { href: string; label: string; icon: string }[]> = {
   patient: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
     { href: "/app/journey", label: "My Care Journey", icon: "Route" },
+    { href: "/app/directory", label: "Find Services", icon: "Building2" },
     { href: "/app/navigator", label: "Health Navigator", icon: "Compass" },
     { href: "/app/screening", label: "Screening", icon: "Activity" },
     { href: "/app/diagnostics", label: "Diagnostics", icon: "FlaskConical" },
@@ -21,12 +22,14 @@ const NAV: Record<Role, { href: string; label: string; icon: string }[]> = {
   health_worker: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
     { href: "/app/patients", label: "Patient Search", icon: "Search" },
+    { href: "/app/directory", label: "Directory", icon: "Building2" },
     { href: "/app/screening", label: "Screening", icon: "Activity" },
     { href: "/app/referrals", label: "Referrals", icon: "Route" },
   ],
   professional: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
     { href: "/app/patients", label: "Patient Search", icon: "Search" },
+    { href: "/app/directory", label: "Directory", icon: "Building2" },
     { href: "/app/diagnostics", label: "Diagnostics", icon: "FlaskConical" },
     { href: "/app/referrals", label: "Referrals", icon: "Route" },
   ],
@@ -43,6 +46,7 @@ const NAV: Record<Role, { href: string; label: string; icon: string }[]> = {
   admin: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
     { href: "/app/patients", label: "Patient Search", icon: "Search" },
+    { href: "/app/directory", label: "Directory", icon: "Building2" },
     { href: "/app/screening", label: "Screening", icon: "Activity" },
     { href: "/app/referrals", label: "Referrals", icon: "Route" },
     { href: "/app/diagnostics", label: "Diagnostics", icon: "FlaskConical" },

@@ -9,6 +9,8 @@ import { Notifications } from "./workflow/Notifications";
 import { PatientWorkflow } from "./workflow/PatientWorkflow";
 import { AppointmentsPanel } from "./workflow/AppointmentsPanel";
 import { WorkflowReset } from "./workflow/WorkflowReset";
+import { HomeVisits } from "./workflow/HomeVisits";
+import { ReferralTracker } from "./workflow/ReferralTracker";
 import { PATIENTS } from "@/lib/data/connected";
 import {
   ADMIN_DIRECTORY, ADMIN_METRICS, CHW_PANELS, PATIENT_PROGRAMMES,
@@ -202,6 +204,11 @@ export function HealthWorkerDashboard({ name }: { name: string }) {
             ))}
           </div>
         </GlassCard>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <HomeVisits />
+        <ReferralTracker canCreate from="SL-CHW-000320" />
       </div>
     </>
   );
