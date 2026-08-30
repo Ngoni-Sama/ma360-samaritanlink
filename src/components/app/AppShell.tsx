@@ -5,11 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@/components/ui/Icon";
 import { ROLE_LABELS } from "@/lib/data/demo";
+import { providerForRole } from "@/lib/data/connected";
 import type { Role } from "@/lib/data/types";
 
 const NAV: Record<Role, { href: string; label: string; icon: string }[]> = {
   patient: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
+    { href: "/app/journey", label: "My Care Journey", icon: "Route" },
     { href: "/app/navigator", label: "Health Navigator", icon: "Compass" },
     { href: "/app/screening", label: "Screening", icon: "Activity" },
     { href: "/app/diagnostics", label: "Diagnostics", icon: "FlaskConical" },
@@ -18,20 +20,24 @@ const NAV: Record<Role, { href: string; label: string; icon: string }[]> = {
   ],
   health_worker: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
+    { href: "/app/patients", label: "Patient Search", icon: "Search" },
     { href: "/app/screening", label: "Screening", icon: "Activity" },
     { href: "/app/referrals", label: "Referrals", icon: "Route" },
   ],
   professional: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
+    { href: "/app/patients", label: "Patient Search", icon: "Search" },
     { href: "/app/diagnostics", label: "Diagnostics", icon: "FlaskConical" },
     { href: "/app/referrals", label: "Referrals", icon: "Route" },
   ],
   pharmacy: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
+    { href: "/app/patients", label: "Patient Search", icon: "Search" },
     { href: "/app/pharmacy", label: "Pharmacy Connect", icon: "Pill" },
   ],
   admin: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
+    { href: "/app/patients", label: "Patient Search", icon: "Search" },
     { href: "/app/screening", label: "Screening", icon: "Activity" },
     { href: "/app/referrals", label: "Referrals", icon: "Route" },
     { href: "/app/diagnostics", label: "Diagnostics", icon: "FlaskConical" },
@@ -51,6 +57,7 @@ export function AppShell({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const nav = NAV[role] ?? NAV.patient;
+  const provider = providerForRole(role);
 
   return (
     <div className="min-h-screen">
@@ -61,10 +68,9 @@ export function AppShell({
             <button className="btn-ghost px-2 lg:hidden" onClick={() => setOpen((v) => !v)} aria-label="Menu">
               <Icon name={open ? "X" : "Menu"} className="h-5 w-5" />
             </button>
-            <Link href="/app" className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600 text-white">
-                <Icon name="HeartHandshake" className="h-4.5 w-4.5" />
-              </span>
+            <Link href="/app" className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/ma360-mark.png" alt="MA360 SamaritanLink" className="h-8 w-8 object-contain" />
               <span className="hidden text-sm font-bold text-ink-900 sm:block">MA360 SamaritanLink</span>
             </Link>
           </div>
@@ -74,7 +80,10 @@ export function AppShell({
             </span>
             <div className="hidden text-right sm:block">
               <p className="text-sm font-semibold leading-tight text-ink-900">{name}</p>
-              <p className="text-[11px] leading-tight text-ink-500">{ROLE_LABELS[role]}</p>
+              <p className="text-[11px] leading-tight text-ink-500">
+                {ROLE_LABELS[role]}
+                {provider && <span className="ml-1.5 font-mono text-brand-600">{provider.providerId}</span>}
+              </p>
             </div>
             <form action="/api/auth/logout" method="post">
               <button className="btn-ghost px-2.5" type="submit" aria-label="Log out" title="Log out">

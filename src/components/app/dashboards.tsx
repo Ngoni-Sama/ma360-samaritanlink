@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { GlassCard, Tag } from "@/components/ui/primitives";
 import { PageHeader } from "./PageHeader";
+import { SmartTasks } from "./SmartTasks";
+import { PATIENTS } from "@/lib/data/connected";
 import {
   ADMIN_DIRECTORY, ADMIN_METRICS, CHW_PANELS, PATIENT_PROGRAMMES,
   PATIENT_QUICK_ACTIONS, PATIENT_JOURNEY, PATIENT_UPCOMING, PHARMACY_PANELS,
@@ -32,12 +34,21 @@ const UPCOMING_ICON: Record<string, string> = {
 export function PatientDashboard({ name }: { name: string }) {
   return (
     <>
-      <PageHeader title={`Welcome to SamaritanLink, ${name.split(" ")[0]}`} subtitle="Your connected health journey in one place." />
+      <PageHeader
+        title={`Welcome to SamaritanLink, ${name.split(" ")[0]}`}
+        subtitle="Your connected health journey in one place."
+        action={
+          <span className="pill border border-brand-200 bg-brand-50 font-mono text-brand-800">
+            <Icon name="IdCard" className="h-3.5 w-3.5" /> {PATIENTS[0].patientId}
+          </span>
+        }
+      />
 
-      <GlassCard className="mb-4">
+      <Link href="/app/journey" className="mb-4 block">
+        <GlassCard className="transition hover:-translate-y-0.5 hover:shadow-glass-lg">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold text-ink-900">Your health journey</h2>
-          <Icon name="Route" className="h-5 w-5 text-brand-600" />
+          <span className="flex items-center gap-1 text-xs font-semibold text-brand-600">View My Care Journey <Icon name="ArrowRight" className="h-3.5 w-3.5" /></span>
         </div>
         <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
           {PATIENT_JOURNEY.map((s, i) => (
@@ -63,7 +74,8 @@ export function PatientDashboard({ name }: { name: string }) {
             </div>
           ))}
         </div>
-      </GlassCard>
+        </GlassCard>
+      </Link>
 
       <h2 className="mb-3 mt-6 text-sm font-bold text-ink-900">Quick actions</h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -141,6 +153,8 @@ export function HealthWorkerDashboard({ name }: { name: string }) {
         <StatTile label="Alerts" value={p.alerts} icon="Bell" />
       </div>
 
+      <div className="mt-6"><SmartTasks role="health_worker" /></div>
+
       <div className="mt-6 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
         <GlassCard>
           <h2 className="text-sm font-bold text-ink-900">Today&apos;s visits</h2>
@@ -199,7 +213,24 @@ export function ProfessionalDashboard({ name }: { name: string }) {
         <StatTile label="ChronicCare" value={p.chronicPatients} icon="LineChart" />
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <SmartTasks role="professional" />
+        <Link
+          href="/app/patients"
+          className="glass-panel flex items-center gap-4 p-5 transition hover:-translate-y-0.5 hover:shadow-glass-lg"
+        >
+          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-700">
+            <Icon name="Search" className="h-5 w-5" />
+          </span>
+          <div>
+            <p className="text-sm font-bold text-ink-900">Search a patient by SamaritanLink ID</p>
+            <p className="text-xs text-ink-500">Open a connected profile and care journey</p>
+          </div>
+          <Icon name="ArrowRight" className="ml-auto h-4 w-4 text-brand-400" />
+        </Link>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
         <GlassCard>
           <h2 className="text-sm font-bold text-ink-900">Patient queue</h2>
           <div className="mt-3 space-y-2.5">
@@ -256,7 +287,8 @@ export function PharmacyDashboard({ name }: { name: string }) {
         <StatTile label="Completed orders" value={p.completedOrders} icon="CheckCircle2" />
         <StatTile label="Refill requests" value={p.refillRequests} icon="Pill" />
       </div>
-      <GlassCard className="mt-6">
+      <div className="mt-6"><SmartTasks role="pharmacy" /></div>
+      <GlassCard className="mt-4">
         <h2 className="text-sm font-bold text-ink-900">Prescription queue</h2>
         <div className="mt-3 space-y-2.5">
           {p.queue.map((q) => (
@@ -308,6 +340,8 @@ export function AdminDashboard({ name }: { name: string }) {
           </GlassCard>
         ))}
       </div>
+
+      <div className="mt-6"><SmartTasks role="admin" /></div>
     </>
   );
 }

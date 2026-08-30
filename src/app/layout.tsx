@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "A connected digital-health extension platform linking people to health navigation, screening, clinical care, diagnostics, medicines, referrals and continuous follow-up. A service of MedAccess360 Foundation.",
   metadataBase: new URL("https://medaccess360.com"),
-  icons: { icon: "/ma360-logo.svg" },
+  icons: { icon: "/ma360-mark.png" },
   openGraph: {
     title: "MA360 SamaritanLink — Care That Crosses the Distance",
     description:

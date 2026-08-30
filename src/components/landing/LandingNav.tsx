@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
-import { Brand } from "@/components/ui/Brand";
 
 const MAIN_SITE = "https://medaccess360.com";
 
@@ -21,8 +20,9 @@ export function LandingNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink-100 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <Link href="/" aria-label="MedAccess360 SamaritanLink home">
-          <Brand variant="full" />
+        <Link href="/" aria-label="MA360 SamaritanLink home" className="flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/ma360-logo.png" alt="MA360 SamaritanLink" className="h-10 w-auto sm:h-11" />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">

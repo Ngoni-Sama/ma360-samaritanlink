@@ -41,11 +41,9 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-4 py-12">
-      <Link href="/" className="mb-8 flex items-center gap-2.5">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 text-white">
-          <Icon name="HeartHandshake" className="h-5 w-5" />
-        </span>
-        <span className="text-lg font-bold text-ink-900">MA360 SamaritanLink</span>
+      <Link href="/" className="mb-8 flex items-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/ma360-logo-full.png" alt="MA360 SamaritanLink — Care That Crosses the Distance" className="h-16 w-auto sm:h-20" />
       </Link>
 
       <div className="grid w-full gap-4 lg:grid-cols-[1fr_1fr]">
