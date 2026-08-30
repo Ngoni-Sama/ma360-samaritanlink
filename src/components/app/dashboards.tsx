@@ -3,6 +3,12 @@ import { Icon } from "@/components/ui/Icon";
 import { GlassCard, Tag } from "@/components/ui/primitives";
 import { PageHeader } from "./PageHeader";
 import { SmartTasks } from "./SmartTasks";
+import { PharmacyQueue } from "./workflow/PharmacyQueue";
+import { LabQueue } from "./workflow/LabQueue";
+import { Notifications } from "./workflow/Notifications";
+import { PatientWorkflow } from "./workflow/PatientWorkflow";
+import { AppointmentsPanel } from "./workflow/AppointmentsPanel";
+import { WorkflowReset } from "./workflow/WorkflowReset";
 import { PATIENTS } from "@/lib/data/connected";
 import {
   ADMIN_DIRECTORY, ADMIN_METRICS, CHW_PANELS, PATIENT_PROGRAMMES,
@@ -131,6 +137,11 @@ export function PatientDashboard({ name }: { name: string }) {
             ))}
           </div>
         </GlassCard>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <PatientWorkflow patientId={PATIENTS[0].patientId} />
+        <Notifications to="patient" title="My notifications" />
       </div>
     </>
   );
@@ -268,6 +279,14 @@ export function ProfessionalDashboard({ name }: { name: string }) {
           </div>
         </GlassCard>
       </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <AppointmentsPanel />
+        <Notifications to="doctor" title="Clinical notifications" />
+      </div>
+      <p className="mt-3 text-xs text-ink-400">
+        Tip: open a patient (Patient Search) to issue a prescription, request a lab test, or schedule a review.
+      </p>
     </>
   );
 }
@@ -288,29 +307,32 @@ export function PharmacyDashboard({ name }: { name: string }) {
         <StatTile label="Refill requests" value={p.refillRequests} icon="Pill" />
       </div>
       <div className="mt-6"><SmartTasks role="pharmacy" /></div>
-      <GlassCard className="mt-4">
-        <h2 className="text-sm font-bold text-ink-900">Prescription queue</h2>
-        <div className="mt-3 space-y-2.5">
-          {p.queue.map((q) => (
-            <div key={q.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-white/60 bg-white/60 px-4 py-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600/10 text-brand-700">
-                <Icon name="Pill" className="h-4.5 w-4.5" />
-              </span>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-ink-900">{q.medicine}</p>
-                <p className="text-xs text-ink-500">{q.patient}</p>
-              </div>
-              <Tag tone={q.status === "ready" ? "green" : q.status === "reserved" ? "amber" : "neutral"}>
-                {q.status}
-              </Tag>
-              <div className="flex gap-2">
-                <button className="btn-secondary px-3 py-1.5 text-xs">Confirm</button>
-                <button className="btn-primary px-3 py-1.5 text-xs">Mark ready</button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </GlassCard>
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1.5fr_1fr]">
+        <PharmacyQueue />
+        <Notifications to="pharmacy" title="Pharmacy notifications" />
+      </div>
+    </>
+  );
+}
+
+// --------------------------------------------------------------------------
+// Laboratory
+// --------------------------------------------------------------------------
+export function LaboratoryDashboard({ name }: { name: string }) {
+  return (
+    <>
+      <PageHeader title="Laboratory dashboard" subtitle={`${name} · connected diagnostic pathway`} />
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <StatTile label="Incoming requests" value={2} icon="FlaskConical" />
+        <StatTile label="Awaiting verification" value={1} icon="ClipboardCheck" />
+        <StatTile label="Results sent today" value={5} icon="Send" />
+        <StatTile label="Turnaround (avg)" value="6h" icon="LineChart" />
+      </div>
+      <div className="mt-6"><SmartTasks role="laboratory" /></div>
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1.5fr_1fr]">
+        <LabQueue />
+        <Notifications to="laboratory" title="Laboratory notifications" />
+      </div>
     </>
   );
 }
@@ -321,7 +343,7 @@ export function PharmacyDashboard({ name }: { name: string }) {
 export function AdminDashboard({ name }: { name: string }) {
   return (
     <>
-      <PageHeader title="Administrator dashboard" subtitle={`${name} · pilot overview (synthetic data)`} />
+      <PageHeader title="Administrator dashboard" subtitle={`${name} · pilot overview (synthetic data)`} action={<WorkflowReset />} />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <StatTile label="Patients" value={ADMIN_DIRECTORY.patients.toLocaleString()} icon="Users" />
         <StatTile label="Health workers" value={ADMIN_DIRECTORY.healthWorkers} icon="UserRound" />

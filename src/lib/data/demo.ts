@@ -24,6 +24,7 @@ export const DEMO_USERS: DemoUser[] = [
   { id: "u-chw", name: "Rutendo Nyathi", email: "chw@demo.samaritanlink", password: "demo1234", role: "health_worker", location: "Epworth" },
   { id: "u-pro", name: "Dr. Farai Chikowore", email: "clinician@demo.samaritanlink", password: "demo1234", role: "professional", location: "Harare Central" },
   { id: "u-pha", name: "Unity Pharmacy Desk", email: "pharmacy@demo.samaritanlink", password: "demo1234", role: "pharmacy", location: "Harare CBD" },
+  { id: "u-lab", name: "MA360 Partner Laboratory", email: "lab@demo.samaritanlink", password: "demo1234", role: "laboratory", location: "Harare" },
   { id: "u-adm", name: "MA360 Administrator", email: "admin@demo.samaritanlink", password: "demo1234", role: "admin", location: "MA360 HQ" },
 ];
 
@@ -32,6 +33,7 @@ export const ROLE_LABELS: Record<string, string> = {
   health_worker: "Community Health Worker",
   professional: "Healthcare Professional",
   pharmacy: "Pharmacy",
+  laboratory: "Laboratory",
   admin: "Administrator",
 };
 

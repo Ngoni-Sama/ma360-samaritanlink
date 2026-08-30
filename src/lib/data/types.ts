@@ -7,6 +7,7 @@ export type Role =
   | "health_worker"
   | "professional"
   | "pharmacy"
+  | "laboratory"
   | "admin";
 
 export type CareStatus =

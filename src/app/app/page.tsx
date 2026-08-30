@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/lib/session";
 import {
-  AdminDashboard, HealthWorkerDashboard, PatientDashboard,
+  AdminDashboard, HealthWorkerDashboard, LaboratoryDashboard, PatientDashboard,
   PharmacyDashboard, ProfessionalDashboard,
 } from "@/components/app/dashboards";
 
@@ -15,6 +15,8 @@ export default function DashboardHome() {
       return <ProfessionalDashboard name={user.name} />;
     case "pharmacy":
       return <PharmacyDashboard name={user.name} />;
+    case "laboratory":
+      return <LaboratoryDashboard name={user.name} />;
     case "admin":
       return <AdminDashboard name={user.name} />;
     default:

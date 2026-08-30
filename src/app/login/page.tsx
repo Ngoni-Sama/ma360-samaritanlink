@@ -10,6 +10,7 @@ const DEMO_ACCOUNTS = [
   { role: "Community Health Worker", email: "chw@demo.samaritanlink", icon: "Users" },
   { role: "Healthcare Professional", email: "clinician@demo.samaritanlink", icon: "Stethoscope" },
   { role: "Pharmacy", email: "pharmacy@demo.samaritanlink", icon: "Pill" },
+  { role: "Laboratory", email: "lab@demo.samaritanlink", icon: "FlaskConical" },
   { role: "Administrator", email: "admin@demo.samaritanlink", icon: "Shield" },
 ];
 

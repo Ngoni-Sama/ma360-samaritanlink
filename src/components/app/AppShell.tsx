@@ -35,6 +35,11 @@ const NAV: Record<Role, { href: string; label: string; icon: string }[]> = {
     { href: "/app/patients", label: "Patient Search", icon: "Search" },
     { href: "/app/pharmacy", label: "Pharmacy Connect", icon: "Pill" },
   ],
+  laboratory: [
+    { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
+    { href: "/app/patients", label: "Patient Search", icon: "Search" },
+    { href: "/app/diagnostics", label: "Diagnostics", icon: "FlaskConical" },
+  ],
   admin: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
     { href: "/app/patients", label: "Patient Search", icon: "Search" },

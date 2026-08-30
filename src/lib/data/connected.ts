@@ -39,6 +39,7 @@ export function providerForRole(role: Role): Provider | undefined {
   const map: Record<string, ProviderRole> = {
     professional: "professional",
     pharmacy: "pharmacy",
+    laboratory: "laboratory",
     health_worker: "health_worker",
     admin: "admin",
   };

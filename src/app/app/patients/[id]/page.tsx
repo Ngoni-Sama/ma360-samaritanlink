@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/lib/session";
-import { PATIENTS } from "@/lib/data/connected";
+import { PATIENTS, providerForRole } from "@/lib/data/connected";
 import { Icon } from "@/components/ui/Icon";
 import { GlassCard, Tag } from "@/components/ui/primitives";
 import { PageHeader } from "@/components/app/PageHeader";
 import { CareJourney } from "@/components/app/CareJourney";
+import { DoctorActions } from "@/components/app/workflow/DoctorActions";
+import { PatientWorkflow } from "@/components/app/workflow/PatientWorkflow";
 
 // Role-based visibility of profile sections (see brief §3 "important principle").
 function visibility(role: string) {
@@ -143,17 +145,29 @@ export default function PatientProfile({ params }: { params: { id: string } }) {
           )}
         </div>
 
-        {/* My Care Journey — signature feature */}
-        {v.journey && (
-          <GlassCard>
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-ink-900">My Care Journey</h2>
-              <Icon name="Route" className="h-5 w-5 text-brand-600" />
-            </div>
-            <p className="mb-4 mt-1 text-xs text-ink-500">One connected history across every provider.</p>
-            <CareJourney events={patient.journey} simple={user.role === "admin"} />
-          </GlassCard>
-        )}
+        {/* Right column: clinical actions, journey, live status */}
+        <div className="space-y-4">
+          {user.role === "professional" && (
+            <DoctorActions
+              patientId={patient.patientId}
+              patientName={patient.name}
+              providerId={providerForRole(user.role)?.providerId ?? "SL-DR-000245"}
+            />
+          )}
+
+          {v.journey && (
+            <GlassCard>
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-bold text-ink-900">My Care Journey</h2>
+                <Icon name="Route" className="h-5 w-5 text-brand-600" />
+              </div>
+              <p className="mb-4 mt-1 text-xs text-ink-500">One connected history across every provider.</p>
+              <CareJourney events={patient.journey} simple={user.role === "admin"} />
+            </GlassCard>
+          )}
+
+          <PatientWorkflow patientId={patient.patientId} />
+        </div>
       </div>
     </>
   );
