@@ -149,6 +149,63 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Health Access Equity — cross-cutting layer */}
+      <section id="equity" className="mx-auto mt-16 max-w-6xl px-4">
+        <div className="glass-panel overflow-hidden">
+          <div className="border-b border-brand-100 bg-brand-600/5 px-6 py-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">Health Access Equity Layer</p>
+            <p className="mt-1 text-sm font-medium text-ink-700">
+              A cross-cutting layer across every stage of care — not a separate programme.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {["Gender", "Age", "Disability", "Geography", "Affordability", "Mobility", "Caregiving", "Privacy", "Digital access"].map((f) => (
+                <span key={f} className="pill border border-brand-200 bg-white/70 text-brand-800">{f}</span>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-6 p-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <h2 className="text-2xl font-bold text-ink-900 sm:text-3xl">Reaching a facility is not the same as completing care</h2>
+              <p className="mt-3 text-base leading-relaxed text-ink-600">
+                Healthcare access is not experienced equally. SamaritanLink asks not only <span className="font-medium text-ink-800">where</span> a
+                patient needs to go, but <span className="font-medium text-ink-800">what might prevent them</span> from getting there or staying in care.
+              </p>
+              <blockquote className="mt-4 border-l-4 border-brand-500 pl-4 text-sm font-medium italic text-ink-700">
+                “Healthcare access is not only about reaching a health facility. It is about being able to enter care,
+                navigate care, complete care and remain connected to care.”
+              </blockquote>
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                {["Identify the barrier", "Select the response", "Reconnect the patient", "Monitor continuity"].map((s, i) => (
+                  <span key={s} className="flex items-center gap-2">
+                    <span className="pill border border-brand-200 bg-brand-50 text-brand-800">{s}</span>
+                    {i < 3 && <Icon name="ArrowRight" className="h-3.5 w-3.5 text-brand-300" />}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">Home follow-up — priority populations</p>
+              <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {[
+                  { icon: "HeartHandshake", label: "Pregnant & postnatal women" },
+                  { icon: "UserRound", label: "New mothers" },
+                  { icon: "Users", label: "Elderly patients" },
+                  { icon: "Activity", label: "Persons with disabilities" },
+                  { icon: "HeartPulse", label: "Chronic disease patients" },
+                  { icon: "Home", label: "Recovering at home & caregivers" },
+                ].map((p) => (
+                  <div key={p.label} className="flex items-center gap-2.5 rounded-2xl border border-white/60 bg-white/60 px-3 py-2.5">
+                    <Icon name={p.icon} className="h-4.5 w-4.5 text-brand-600" />
+                    <span className="text-xs font-medium text-ink-700">{p.label}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 text-sm font-semibold text-brand-700">“Diagnosis is not the endpoint. Continuity is the intervention.”</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What SamaritanLink Connects */}
       <section id="connects" className="mx-auto mt-24 max-w-6xl px-4">
         <SectionTitle eyebrow="What SamaritanLink Connects" title="Ten services, one patient journey" />
@@ -192,6 +249,77 @@ export default function LandingPage() {
             </div>
           </GlassCard>
         </div>
+      </section>
+
+      {/* Gender-responsive use cases */}
+      <section id="usecases" className="mx-auto mt-24 max-w-6xl px-4">
+        <SectionTitle
+          eyebrow="Equity in practice"
+          title="Gender-responsive care, integrated — not a separate service"
+          subtitle="The same connected journey, applied where gender and social realities affect whether a person can enter and remain in care."
+        />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: "HeartHandshake", title: "Maternal & postnatal continuity", body: "Facility → Home → Follow-up for pregnant and postnatal women when facility return is difficult." },
+            { icon: "ShieldCheck", title: "Men's preventive health", body: "Screening → Risk → Referral → Treatment → Follow-up, addressing barriers to early care-seeking." },
+            { icon: "UserRound", title: "Adolescent & confidential care", body: "Supporting access where privacy and confidentiality affect whether young people seek care at all." },
+            { icon: "HeartPulse", title: "Gender & chronic-disease continuity", body: "Understanding why patients discontinue medication or follow-up, and reconnecting them." },
+            { icon: "Users", title: "Caregiver support", body: "Helping households manage medication, appointments and referrals — recognising the caregiving burden." },
+          ].map((u) => (
+            <GlassCard key={u.title} className="transition hover:-translate-y-0.5 hover:shadow-glass-lg">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-700">
+                <Icon name={u.icon} className="h-5 w-5" />
+              </span>
+              <h3 className="mt-4 text-base font-bold text-ink-900">{u.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-ink-600">{u.body}</p>
+            </GlassCard>
+          ))}
+          <GlassCard className="flex flex-col justify-center bg-brand-900/90 text-white">
+            <p className="text-sm font-semibold">PATIENT REACHED → CONNECTED → CONTINUED → OUTCOME</p>
+            <p className="mt-2 text-xs text-brand-50/80">Equity is one of the lenses used to understand access and continuity — alongside age, disability, geography and affordability.</p>
+          </GlassCard>
+        </div>
+      </section>
+
+      {/* Commercial — For Organisations */}
+      <section id="organisations" className="mx-auto mt-24 max-w-6xl px-4">
+        <SectionTitle
+          eyebrow="For Organisations"
+          title="Sustainable by design"
+          subtitle="SamaritanLink is not a patient-pay app. Revenue is built around the organisations that benefit from better healthcare access — never the vulnerable person seeking help."
+        />
+        <div className="mt-6 grid gap-3 lg:grid-cols-3">
+          {[
+            { icon: "UserRound", title: "Patients & communities", body: "Seek guidance, find verified services, request navigation, receive referral & follow-up — free to the individual." },
+            { icon: "Stethoscope", title: "Healthcare providers", body: "Verified profiles, patient/service requests, appointments, referrals and care hand-offs across the network." },
+            { icon: "Building2", title: "Organisations & programmes", body: "Enrol employee or beneficiary cohorts, coordinate care, and track closed-loop referrals with impact dashboards." },
+          ].map((g) => (
+            <GlassCard key={g.title}>
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-700">
+                <Icon name={g.icon} className="h-5 w-5" />
+              </span>
+              <h3 className="mt-3 text-sm font-bold text-ink-900">{g.title}</h3>
+              <p className="mt-1 text-xs leading-relaxed text-ink-600">{g.body}</p>
+            </GlassCard>
+          ))}
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {[
+            { icon: "Stethoscope", label: "Provider network subscriptions" },
+            { icon: "Users", label: "Navigation & care coordination" },
+            { icon: "Building2", label: "Corporate health programmes" },
+            { icon: "HeartHandshake", label: "Sponsored & development programmes" },
+            { icon: "LayoutDashboard", label: "Digital platform & technology services" },
+          ].map((r) => (
+            <div key={r.label} className="glass-panel flex flex-col items-start gap-2 p-4">
+              <Icon name={r.icon} className="h-5 w-5 text-brand-700" />
+              <span className="text-xs font-semibold text-ink-800">{r.label}</span>
+            </div>
+          ))}
+        </div>
+        <blockquote className="mt-5 border-l-4 border-brand-500 pl-4 text-sm font-medium italic text-ink-700">
+          “Don’t charge the vulnerable person for finding help. Build sustainable revenue around the infrastructure that makes healthcare access possible.”
+        </blockquote>
       </section>
 
       {/* Partners */}

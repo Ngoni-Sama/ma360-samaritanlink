@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/app/", "/api/"],
+      disallow: ["/app/", "/api/", "/site"],
     },
     sitemap: "https://ma360-samaritanlink.vercel.app/sitemap.xml",
   };

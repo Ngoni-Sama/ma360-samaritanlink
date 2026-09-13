@@ -180,3 +180,18 @@ model AuditLog {
   action    String
   timestamp DateTime @default(now())
 }
+
+// Temporary QA/verification checklist (the /site page). Removable later.
+model ChecklistItem {
+  id        String   @id @default(cuid())
+  category  String
+  label     String
+  detail    String?
+  link      String? // path to the page that satisfies this item
+  status    String   @default("todo") // done | partial | missing | todo (doc assessment)
+  checked   Boolean  @default(false) // user has verified it exists
+  notes     String? // screenshot links / verification notes
+  source    String? // which document the item comes from
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}

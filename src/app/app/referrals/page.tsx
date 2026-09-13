@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/app/PageHeader";
 import { REFERRAL_TIMELINE } from "@/lib/data/demo";
 import { getCurrentUser } from "@/lib/session";
 import { ReferralTracker } from "@/components/app/workflow/ReferralTracker";
+import { ReferralContinuity } from "@/components/app/workflow/ReferralContinuity";
 
 export default async function ReferralsPage() {
   const user = await getCurrentUser();
@@ -16,6 +17,10 @@ export default async function ReferralsPage() {
 
       <div className="mb-4">
         <ReferralTracker canCreate={canCreate} from={from} />
+      </div>
+
+      <div className="mb-4">
+        <ReferralContinuity />
       </div>
 
       <h2 className="mb-3 text-sm font-bold text-ink-900">Example — connected referral timeline</h2>

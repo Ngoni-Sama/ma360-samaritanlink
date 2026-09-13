@@ -11,6 +11,7 @@ import { AppointmentsPanel } from "./workflow/AppointmentsPanel";
 import { WorkflowReset } from "./workflow/WorkflowReset";
 import { HomeVisits } from "./workflow/HomeVisits";
 import { ReferralTracker } from "./workflow/ReferralTracker";
+import { EquityIntelligence } from "./workflow/EquityIntelligence";
 import { PATIENTS } from "@/lib/data/connected";
 import {
   ADMIN_DIRECTORY, ADMIN_METRICS, CHW_PANELS, PATIENT_PROGRAMMES,
@@ -370,7 +371,10 @@ export function AdminDashboard({ name }: { name: string }) {
         ))}
       </div>
 
-      <div className="mt-6"><SmartTasks role="admin" /></div>
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <SmartTasks role="admin" />
+        <EquityIntelligence />
+      </div>
     </>
   );
 }

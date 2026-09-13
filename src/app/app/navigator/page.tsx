@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { GlassCard } from "@/components/ui/primitives";
 import { PageHeader } from "@/components/app/PageHeader";
+import { BarrierAssessment } from "@/components/app/workflow/BarrierAssessment";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -148,6 +149,10 @@ export default function NavigatorPage() {
           </button>
         </form>
       </GlassCard>
+
+      <div className="mt-4">
+        <BarrierAssessment />
+      </div>
     </>
   );
 }
