@@ -70,7 +70,7 @@ export const CHECKLIST_SEED: SeedItem[] = [
 
   // J. Pilot
   { category: "J. Pilot & Evaluation", label: "Pilot geography, cohort, baseline metrics", detail: "Not selected.", status: "missing", source: "Impl J" },
-  { category: "J. Pilot & Evaluation", label: "Impact / M&E dashboard", detail: "Admin pilot statistics + equity lens present; full M&E pending.", link: "/app", status: "partial", source: "Impl J" },
+  { category: "J. Pilot & Evaluation", label: "Impact / M&E dashboard", detail: "Live M&E: care-continuum funnel, completion rates, equity breakdown (admin).", link: "/app/intelligence", status: "done", source: "Impl J" },
 
   // K. Health Access Equity (equity addendum)
   { category: "K. Health Access Equity", label: "Equity cross-cutting layer on landing", detail: "Band across the journey + retained phrase.", link: "/#equity", status: "done", source: "Equity §8" },

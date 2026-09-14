@@ -45,6 +45,7 @@ const NAV: Record<Role, { href: string; label: string; icon: string }[]> = {
   ],
   admin: [
     { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
+    { href: "/app/intelligence", label: "M&E Dashboard", icon: "LineChart" },
     { href: "/app/patients", label: "Patient Search", icon: "Search" },
     { href: "/app/directory", label: "Directory", icon: "Building2" },
     { href: "/app/screening", label: "Screening", icon: "Activity" },
