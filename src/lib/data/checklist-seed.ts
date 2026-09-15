@@ -33,12 +33,12 @@ export const CHECKLIST_SEED: SeedItem[] = [
 
   // C. Mobile & multi-channel
   { category: "C. Mobile & Multi-channel", label: "Mobile-first responsive UI", detail: "Verified on mobile widths.", link: "/", status: "done", source: "Impl C" },
-  { category: "C. Mobile & Multi-channel", label: "USSD / SMS / WhatsApp / Voice gateway", detail: "Not yet integrated (needs telecom/provider credentials).", status: "missing", source: "Impl C" },
+  { category: "C. Mobile & Multi-channel", label: "USSD / SMS / WhatsApp / Voice gateway", detail: "USSD + SMS simulator live (Africa's Talking-compatible, DB-backed). WhatsApp/Voice pending credentials.", link: "/ussd", status: "partial", source: "Impl C" },
   { category: "C. Mobile & Multi-channel", label: "Offline-first CHW application", detail: "Not demonstrated publicly.", status: "missing", source: "Impl gap" },
   { category: "C. Mobile & Multi-channel", label: "Zero-rated data + mobile auth", detail: "Pending telecom partnership.", status: "missing", source: "Impl C" },
 
   // D. Telecom
-  { category: "D. Telecom Integration", label: "USSD/SMS user journeys + business case", detail: "Not started.", status: "missing", source: "Impl D" },
+  { category: "D. Telecom Integration", label: "USSD/SMS user journeys + business case", detail: "USSD/SMS user journeys demonstrated end-to-end in the simulator; business case pending.", link: "/ussd", status: "partial", source: "Impl D" },
   { category: "D. Telecom Integration", label: "Econet / NetOne / Telecel pilot MOUs", detail: "Engagement not initiated.", status: "missing", source: "Impl D" },
 
   // E. Provider network

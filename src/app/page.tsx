@@ -247,6 +247,9 @@ export default function LandingPage() {
                 </span>
               ))}
             </div>
+            <Link href="/ussd" className="btn-secondary mt-4 text-sm">
+              <Icon name="Phone" className="h-4 w-4" /> Try USSD / SMS (no smartphone needed)
+            </Link>
           </GlassCard>
         </div>
       </section>
