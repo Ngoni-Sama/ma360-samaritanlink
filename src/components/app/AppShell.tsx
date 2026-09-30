@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@/components/ui/Icon";
+import { AppBreadcrumbs } from "@/components/app/AppBreadcrumbs";
 import { ROLE_LABELS } from "@/lib/data/demo";
 import { providerForRole } from "@/lib/data/connected";
 import type { Role } from "@/lib/data/types";
@@ -130,7 +131,10 @@ export function AppShell({
         </aside>
 
         {/* Main */}
-        <main className="min-w-0 flex-1">{children}</main>
+        <main className="min-w-0 flex-1">
+          <AppBreadcrumbs />
+          {children}
+        </main>
       </div>
     </div>
   );

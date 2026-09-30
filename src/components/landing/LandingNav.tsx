@@ -11,8 +11,8 @@ const MAIN_SITE = "https://medaccess360.com";
 const LINKS = [
   { href: `${MAIN_SITE}/about`, label: "About", external: true },
   { href: `${MAIN_SITE}/our-work`, label: "Our Work", external: true },
-  { href: "#solution", label: "How It Works", external: false },
-  { href: "#organisations", label: "For Organisations", external: false },
+  { href: "/how-it-works", label: "How It Works", external: false },
+  { href: "/for-organisations", label: "For Organisations", external: false },
   { href: `${MAIN_SITE}/get-involved`, label: "Get Involved", external: true },
 ];
 

@@ -15,12 +15,12 @@ export interface SeedItem {
 export const CHECKLIST_SEED: SeedItem[] = [
   // A. Strategy & Brand
   { category: "A. Strategy & Brand", label: "Connected health-extension positioning + tagline", detail: "Homepage frames the platform as a connected digital-health extension, not telemedicine.", link: "/", status: "done", source: "Impl §2.1" },
-  { category: "A. Strategy & Brand", label: "Continuous patient journey mapped", detail: "Need → Screening → Clinical → Diagnostics/Medicines → Referral → Home follow-up.", link: "/", status: "done", source: "Impl §2.2" },
+  { category: "A. Strategy & Brand", label: "Continuous patient journey mapped", detail: "Need → Screening → Clinical → Diagnostics/Medicines → Referral → Home follow-up.", link: "/how-it-works", status: "done", source: "Impl §2.2" },
   { category: "A. Strategy & Brand", label: "Brand identity, logo, multi-audience messaging", detail: "MA360 logo, palette, Open Sans; extension of medaccess360.com.", link: "/", status: "done", source: "Impl A" },
 
   // B. Digital Product (prototype)
   { category: "B. Digital Product", label: "Role-based login + portal", detail: "Patient, CHW, Clinician, Pharmacy, Laboratory, Administrator.", link: "/login", status: "done", source: "Impl §2.6" },
-  { category: "B. Digital Product", label: "Ten-service architecture represented", detail: "Navigation, Screening, Telehealth, Diagnostics, Pharmacy, Referral, Home follow-up, ChronicCare, CHW, Health Intelligence.", link: "/", status: "done", source: "Impl §2.3" },
+  { category: "B. Digital Product", label: "Ten-service architecture represented", detail: "Navigation, Screening, Telehealth, Diagnostics, Pharmacy, Referral, Home follow-up, ChronicCare, CHW, Health Intelligence.", link: "/how-it-works", status: "done", source: "Impl §2.3" },
   { category: "B. Digital Product", label: "Real database + production workflows", detail: "Neon Postgres; DB-backed auth (bcrypt); server-persisted workflows.", link: "/app", status: "done", source: "Impl B" },
   { category: "B. Digital Product", label: "SamaritanLink Patient ID + longitudinal profile", detail: "SL-P-YYYY-NNNNNN, searchable; role-based profile.", link: "/app/patients", status: "done", source: "Actor: Patient" },
   { category: "B. Digital Product", label: "Provider IDs + role dashboards", detail: "SL-DR/PH/LAB/CHW/NUR; per-role dashboards.", link: "/app", status: "done", source: "Actor workflows" },
@@ -63,7 +63,7 @@ export const CHECKLIST_SEED: SeedItem[] = [
   { category: "H. Government Alignment", label: "Impilo interoperability roadmap (FHIR)", detail: "Not demonstrated.", status: "missing", source: "Impl H" },
 
   // I. Commercial
-  { category: "I. Commercial Model", label: "For-Organisations commercial layer on site", detail: "3 user groups + 5 revenue categories + philosophy.", link: "/#organisations", status: "done", source: "Commercial Overview" },
+  { category: "I. Commercial Model", label: "For-Organisations commercial layer on site", detail: "3 user groups + 5 revenue categories + philosophy.", link: "/for-organisations", status: "done", source: "Commercial Overview" },
   { category: "I. Commercial Model", label: "Provider subscription engine", detail: "Presented; billing not implemented.", status: "partial", source: "Commercial Overview" },
   { category: "I. Commercial Model", label: "Corporate / medical-aid / sponsored programme flows", detail: "Presented conceptually; enrolment not built.", status: "partial", source: "Commercial Overview" },
   { category: "I. Commercial Model", label: "Financial model (unit economics, CAC, 3-yr P&L)", detail: "Not built.", status: "missing", source: "Impl I" },
@@ -73,12 +73,12 @@ export const CHECKLIST_SEED: SeedItem[] = [
   { category: "J. Pilot & Evaluation", label: "Impact / M&E dashboard", detail: "Live M&E: care-continuum funnel, completion rates, equity breakdown (admin).", link: "/app/intelligence", status: "done", source: "Impl J" },
 
   // K. Health Access Equity (equity addendum)
-  { category: "K. Health Access Equity", label: "Equity cross-cutting layer on landing", detail: "Band across the journey + retained phrase.", link: "/#equity", status: "done", source: "Equity §8" },
+  { category: "K. Health Access Equity", label: "Equity cross-cutting layer", detail: "Dedicated equity page: factors, barrier workflow, priority populations, retained phrases.", link: "/equity", status: "done", source: "Equity §8" },
   { category: "K. Health Access Equity", label: "Patient Access Barrier Assessment", detail: "In Health Navigator: identify barrier → response → reconnect → monitor.", link: "/app/navigator", status: "done", source: "Equity §3" },
   { category: "K. Health Access Equity", label: "Referral continuity chain + dropout analysis", detail: "Created → Received → Attended → Treatment → Follow-up; dropout barriers.", link: "/app/referrals", status: "done", source: "Equity §4" },
-  { category: "K. Health Access Equity", label: "Home follow-up priority populations + barrier framing", detail: "Priority population cards; barrier-reduction framing.", link: "/#equity", status: "done", source: "Equity §5" },
+  { category: "K. Health Access Equity", label: "Home follow-up priority populations + barrier framing", detail: "Priority population cards; barrier-reduction framing.", link: "/equity", status: "done", source: "Equity §5" },
   { category: "K. Health Access Equity", label: "Health Intelligence equity lens (who enters/completes)", detail: "Equity questions + gender as an analytical dimension.", link: "/app", status: "done", source: "Equity §6" },
 
   // L. Gender-responsive use cases
-  { category: "L. Gender-Responsive Use Cases", label: "Five gender-responsive use cases on site", detail: "Maternal/postnatal, men's preventive, adolescent/confidential, chronic continuity, caregiver support.", link: "/#usecases", status: "done", source: "Equity §7" },
+  { category: "L. Gender-Responsive Use Cases", label: "Five gender-responsive use cases", detail: "Maternal/postnatal, men's preventive, adolescent/confidential, chronic continuity, caregiver support.", link: "/use-cases", status: "done", source: "Equity §7" },
 ];

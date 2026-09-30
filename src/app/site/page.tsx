@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
+import { SiteSignIn } from "@/components/app/SiteSignIn";
 
 interface Item {
   id: string; category: string; label: string; detail: string | null; link: string | null;
@@ -62,6 +63,8 @@ export default function SiteChecklist() {
         </div>
         <Link href="/" className="btn-secondary text-sm">View site</Link>
       </div>
+
+      <SiteSignIn />
 
       {/* Progress */}
       <div className="glass-panel mb-5 p-5">
