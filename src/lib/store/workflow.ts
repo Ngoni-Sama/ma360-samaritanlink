@@ -66,7 +66,12 @@ async function apply(action: string, args: unknown): Promise<boolean> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action, args }),
     });
-    if (!res.ok) { setStatus({ error: errorFor(res.status, "save") }); return false; }
+    if (!res.ok) {
+      // 4xx responses carry a message the user can act on; otherwise use the generic one.
+      const body = res.status >= 400 && res.status < 500 && res.status !== 401 ? await res.json().catch(() => null) : null;
+      setStatus({ error: body?.error ?? errorFor(res.status, "save") });
+      return false;
+    }
     state = await res.json();
     emit();
     return true;
@@ -100,6 +105,9 @@ export const workflow = {
   setApptStatus: (id: string, status: string) => apply("setApptStatus", { id, status }),
   createReferral: (p: { patientId: string; patientName: string; from: string; to: string; reason: string }) => apply("createReferral", p),
   advanceReferral: (id: string) => apply("advanceReferral", { id }),
+  stallReferral: (id: string, barrier: string, note: string) => apply("stallReferral", { id, barrier, note }),
+  resolveReferral: (id: string, response: string) => apply("resolveReferral", { id, response }),
+  recordBarriers: (barriers: { barrier: string; note?: string }[], patientId?: string) => apply("recordBarriers", { barriers, patientId }),
   completeHomeVisit: (id: string, outcome: string, escalate: boolean) => apply("completeHomeVisit", { id, outcome, escalate }),
   reset: () => apply("reset", {}),
 };

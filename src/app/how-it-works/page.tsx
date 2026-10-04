@@ -43,6 +43,29 @@ export default function HowItWorksPage() {
           ))}
         </div>
 
+        <GlassCard className="mt-10">
+          <h2 className="text-lg font-bold text-ink-900">How SamaritanLink keeps care connected</h2>
+          <p className="mt-1 max-w-prose text-sm text-ink-600">
+            We don&apos;t only ask whether a patient was connected to a service. We ask whether they completed the care
+            journey, and if not, why.
+          </p>
+          <ol className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              "Patient need", "Navigate", "Identify access barriers", "Connect to care", "Referral / treatment",
+              "Track progress", "Identify drop-offs", "Respond to barriers", "Follow-up", "Continuity of care",
+            ].map((step, i) => (
+              <li key={step} className={`flex items-center gap-2.5 rounded-2xl border px-3 py-2.5 ${[2, 6, 7].includes(i) ? "border-brand-300 bg-brand-50" : "border-white/60 bg-white/60"}`}>
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white">{i + 1}</span>
+                <span className="text-sm font-medium text-ink-800">{step}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-3 text-sm text-ink-500">
+            Highlighted steps are where Health Access Equity works: barriers are identified, drop-offs are tracked to the
+            stage where they happen, and the care team responds.
+          </p>
+        </GlassCard>
+
         <h2 className="mb-3 mt-10 text-sm font-bold uppercase tracking-wide text-brand-700">Ten connected services</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s) => (

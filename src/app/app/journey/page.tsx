@@ -3,6 +3,7 @@ import { Icon } from "@/components/ui/Icon";
 import { GlassCard } from "@/components/ui/primitives";
 import { PageHeader } from "@/components/app/PageHeader";
 import { CareJourney } from "@/components/app/CareJourney";
+import { PatientReferrals } from "@/components/app/workflow/PatientReferrals";
 import { db } from "@/lib/db";
 import type { JourneyEvent } from "@/lib/data/connected";
 
@@ -40,6 +41,10 @@ export default async function MyJourneyPage() {
       <GlassCard>
         <CareJourney events={journey} simple />
       </GlassCard>
+
+      <div className="mt-4">
+        <PatientReferrals patientId={patient.patientId} audience="patient" />
+      </div>
     </>
   );
 }

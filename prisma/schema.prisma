@@ -24,6 +24,7 @@ model User {
   passwordHash String
   status       String   @default("active")
   providerId   String? // links provider-role users to a Provider
+  patientId    String? // links a patient login to their SamaritanLink record
   createdAt    DateTime @default(now())
 }
 
@@ -151,8 +152,26 @@ model Referral {
   fromProvider String
   toProvider   String
   reason       String
-  status       String // created | patient_notified | facility_identified | appointment | completed | followup
+  status       String // created | received | attended | treatment | followup
   createdAt    DateTime @default(now())
+
+  // Where the care journey broke, and why (Health Access Equity).
+  stalled         Boolean   @default(false)
+  barrier         String? // transport | cost | distance | mobility | work | caregiving | privacy | disability | digital | other
+  barrierNote     String?
+  barrierResponse String?
+  stalledAt       DateTime?
+}
+
+// Access barriers identified for a patient, during navigation or from a stalled referral.
+model PatientBarrier {
+  id          String   @id @default(cuid())
+  patientId   String
+  patientName String
+  barrier     String
+  note        String?
+  source      String   @default("navigator") // navigator | referral
+  createdAt   DateTime @default(now())
 }
 
 model HomeVisit {

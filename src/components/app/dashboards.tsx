@@ -12,6 +12,8 @@ import { WorkflowReset } from "./workflow/WorkflowReset";
 import { HomeVisits } from "./workflow/HomeVisits";
 import { ReferralTracker } from "./workflow/ReferralTracker";
 import { EquityIntelligence } from "./workflow/EquityIntelligence";
+import { DropOffTasks } from "./workflow/DropOffTasks";
+import { PatientReferrals } from "./workflow/PatientReferrals";
 import { PATIENTS } from "@/lib/data/connected";
 import {
   ADMIN_DIRECTORY, ADMIN_METRICS, CHW_PANELS, PATIENT_PROGRAMMES,
@@ -146,6 +148,9 @@ export function PatientDashboard({ name }: { name: string }) {
         <PatientWorkflow patientId={PATIENTS[0].patientId} />
         <Notifications to="patient" title="My notifications" />
       </div>
+      <div className="mt-4">
+        <PatientReferrals patientId={PATIENTS[0].patientId} audience="patient" />
+      </div>
     </>
   );
 }
@@ -167,7 +172,10 @@ export function HealthWorkerDashboard({ name }: { name: string }) {
         <StatTile label="Alerts" value={p.alerts} icon="Bell" />
       </div>
 
-      <div className="mt-6"><SmartTasks role="health_worker" /></div>
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <DropOffTasks />
+        <SmartTasks role="health_worker" />
+      </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
         <GlassCard>
@@ -232,7 +240,9 @@ export function ProfessionalDashboard({ name }: { name: string }) {
         <StatTile label="ChronicCare" value={p.chronicPatients} icon="LineChart" />
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-6"><DropOffTasks /></div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <SmartTasks role="professional" />
         <Link
           href="/app/patients"
@@ -372,9 +382,10 @@ export function AdminDashboard({ name }: { name: string }) {
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <DropOffTasks />
         <SmartTasks role="admin" />
-        <EquityIntelligence />
       </div>
+      <div className="mt-4"><EquityIntelligence /></div>
     </>
   );
 }

@@ -74,8 +74,10 @@ export const CHECKLIST_SEED: SeedItem[] = [
 
   // K. Health Access Equity (equity addendum)
   { category: "K. Health Access Equity", label: "Equity cross-cutting layer", detail: "Dedicated equity page: factors, barrier workflow, priority populations, retained phrases.", link: "/equity", status: "done", source: "Equity §8" },
-  { category: "K. Health Access Equity", label: "Patient Access Barrier Assessment", detail: "In Health Navigator: identify barrier → response → reconnect → monitor.", link: "/app/navigator", status: "done", source: "Equity §3" },
-  { category: "K. Health Access Equity", label: "Referral continuity chain + dropout analysis", detail: "Created → Received → Attended → Treatment → Follow-up; dropout barriers.", link: "/app/referrals", status: "done", source: "Equity §4" },
+  { category: "K. Health Access Equity", label: "Patient Access Barrier Assessment", detail: "In Health Navigator: 10 barriers, saved to the patient's record, alerts the care team.", link: "/app/navigator", status: "done", source: "Equity §3" },
+  { category: "K. Health Access Equity", label: "Referral continuity chain + dropout analysis", detail: "Live 5-stage closed loop (Created → Received → Attended → Treatment → Follow-up); stalled-at-stage with barrier reason and response; drop-offs on M&E.", link: "/app/referrals", status: "done", source: "Equity §4 / Albert §2" },
+  { category: "K. Health Access Equity", label: "Drop-off tasks for the care team", detail: "Stalled referrals and reported barriers on CHW, clinician and admin dashboards.", link: "/app", status: "done", source: "Albert §2" },
+  { category: "K. Health Access Equity", label: "Drop-off analytics by stage, reason, sex and location", detail: "M&E dashboard: where journeys break and why.", link: "/app/intelligence", status: "done", source: "Albert §2" },
   { category: "K. Health Access Equity", label: "Home follow-up priority populations + barrier framing", detail: "Priority population cards; barrier-reduction framing.", link: "/equity", status: "done", source: "Equity §5" },
   { category: "K. Health Access Equity", label: "Health Intelligence equity lens (who enters/completes)", detail: "Equity questions + gender as an analytical dimension.", link: "/app", status: "done", source: "Equity §6" },
 

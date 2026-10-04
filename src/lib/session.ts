@@ -41,6 +41,7 @@ export interface SessionUser {
   email: string;
   role: string;
   providerId: string | null;
+  patientId: string | null;
 }
 
 export async function getCurrentUser(): Promise<SessionUser | null> {
@@ -49,7 +50,7 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   if (!userId) return null;
   const user = await db.user.findUnique({
     where: { id: userId },
-    select: { id: true, name: true, email: true, role: true, providerId: true },
+    select: { id: true, name: true, email: true, role: true, providerId: true, patientId: true },
   });
   return user ?? null;
 }

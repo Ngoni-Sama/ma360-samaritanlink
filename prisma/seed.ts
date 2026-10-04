@@ -39,6 +39,7 @@ async function main() {
         role: u.role,
         passwordHash: await bcrypt.hash(u.password, 10),
         providerId: providerForRole(u.role)?.providerId ?? null,
+        patientId: u.role === "patient" ? "SL-P-2026-000001" : null,
       },
     });
   }
@@ -88,7 +89,7 @@ async function main() {
     { patientId: "SL-P-2026-000003", patientName: "Blessing Ncube", tests: "U&E, HbA1c", lab: "MA360 Partner Laboratory", requestedBy: "SL-DR-000245", status: "requested" },
   ]});
   await prisma.appointment.create({ data: { patientId: "SL-P-2026-000001", patientName: "Tendai Moyo", purpose: "30-day hypertension review", whenAt: "2026-09-20 10:30", status: "scheduled" } });
-  await prisma.referral.create({ data: { patientId: "SL-P-2026-000003", patientName: "Blessing Ncube", fromProvider: "SL-CHW-000320", toProvider: "Harare Central Hospital", reason: "Uncontrolled hypertension — urgent review", status: "facility_identified" } });
+  await prisma.referral.create({ data: { patientId: "SL-P-2026-000003", patientName: "Blessing Ncube", fromProvider: "SL-CHW-000320", toProvider: "Harare Central Hospital", reason: "Uncontrolled hypertension, urgent review", status: "received", stalled: true, barrier: "transport", barrierNote: "Cannot afford the bus fare to Harare and has no one to go with him.", stalledAt: new Date() } });
   await prisma.homeVisit.createMany({ data: [
     { patientId: "SL-P-2026-000001", patientName: "Tendai Moyo", purpose: "Blood-pressure check", whenAt: "2026-09-05 14:00", status: "scheduled" },
     { patientId: "SL-P-2026-000003", patientName: "Blessing Ncube", purpose: "Urgent review escort", whenAt: "Today 15:30", status: "scheduled" },

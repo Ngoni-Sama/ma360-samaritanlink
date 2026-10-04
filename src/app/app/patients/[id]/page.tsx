@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/app/PageHeader";
 import { CareJourney } from "@/components/app/CareJourney";
 import { DoctorActions } from "@/components/app/workflow/DoctorActions";
 import { PatientWorkflow } from "@/components/app/workflow/PatientWorkflow";
+import { PatientReferrals } from "@/components/app/workflow/PatientReferrals";
 
 // Role-based visibility of profile sections (see brief §3 "important principle").
 function visibility(role: string) {
@@ -171,6 +172,9 @@ export default async function PatientProfile({ params }: { params: { id: string 
             </GlassCard>
           )}
 
+          {user.role !== "pharmacy" && user.role !== "laboratory" && (
+            <PatientReferrals patientId={patient.patientId} audience="team" />
+          )}
           <PatientWorkflow patientId={patient.patientId} />
         </div>
       </div>
