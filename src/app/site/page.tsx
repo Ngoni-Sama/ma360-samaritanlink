@@ -21,17 +21,30 @@ export default function SiteChecklist() {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "unchecked" | "missing">("all");
+  const [error, setError] = useState("");
 
   async function load() {
-    const r = await fetch("/api/checklist", { cache: "no-store" });
-    if (r.ok) setItems(await r.json());
-    setLoading(false);
+    try {
+      const r = await fetch("/api/checklist", { cache: "no-store" });
+      if (!r.ok) throw new Error(String(r.status));
+      setItems(await r.json());
+      setError("");
+    } catch {
+      setError("Couldn't load the checklist. Check your connection, then refresh the page.");
+    } finally {
+      setLoading(false);
+    }
   }
   useEffect(() => { load(); }, []);
 
   async function post(body: object) {
-    const r = await fetch("/api/checklist", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    if (r.ok) load();
+    try {
+      const r = await fetch("/api/checklist", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (!r.ok) throw new Error(String(r.status));
+      await load();
+    } catch {
+      setError("That change wasn't saved. Check your connection and try again.");
+    }
   }
 
   const groups = useMemo(() => {
@@ -77,7 +90,7 @@ export default function SiteChecklist() {
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           {(["all", "unchecked", "missing"] as const).map((f) => (
-            <button key={f} onClick={() => setFilter(f)}
+            <button type="button" key={f} aria-pressed={filter === f} onClick={() => setFilter(f)}
               className={`pill border ${filter === f ? "border-brand-500 bg-brand-600 text-white" : "border-ink-200 bg-white/70 text-ink-600"}`}>
               {f === "all" ? "All" : f === "unchecked" ? "Not yet verified" : "Missing / gaps"}
             </button>
@@ -88,7 +101,12 @@ export default function SiteChecklist() {
         </div>
       </div>
 
-      {loading && <p className="text-sm text-ink-500">Loading…</p>}
+      {loading && <p role="status" className="text-sm text-ink-500">Loading the checklist…</p>}
+      {error && (
+        <p role="alert" className="mb-4 flex items-center gap-2 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          <Icon name="AlertTriangle" className="h-4 w-4 shrink-0" /> {error}
+        </p>
+      )}
 
       {groups.map(([category, list]) => (
         <section key={category} className="mb-5">
@@ -147,7 +165,7 @@ function NoteEditor({ item, onSave }: { item: Item; onSave: (notes: string) => v
   }
   return (
     <span className="flex items-center gap-1.5">
-      <input value={val} onChange={(e) => setVal(e.target.value)} placeholder="Screenshot URL or verification note"
+      <input aria-label="Verification note or screenshot link" value={val} onChange={(e) => setVal(e.target.value)} placeholder="Screenshot URL or verification note"
         className="rounded-full border border-white/70 bg-white/80 px-3 py-1 text-xs text-ink-900 outline-none focus:border-brand-300" />
       <button onClick={() => { onSave(val); setOpen(false); }} className="pill border border-brand-500 bg-brand-600 text-white">Save</button>
     </span>
@@ -161,9 +179,9 @@ function AddItem({ onAdd }: { onAdd: (p: { category: string; label: string }) =>
     <div className="glass-panel p-4">
       <p className="mb-2 text-sm font-bold text-ink-900">Add a checklist item</p>
       <div className="flex flex-wrap gap-2">
-        <input value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Category"
+        <input aria-label="Category" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Category"
           className="w-40 rounded-2xl border border-white/70 bg-white/80 px-3 py-2 text-sm outline-none focus:border-brand-300" />
-        <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="What to verify"
+        <input aria-label="What to verify" value={label} onChange={(e) => setLabel(e.target.value)} placeholder="What to verify"
           className="flex-1 rounded-2xl border border-white/70 bg-white/80 px-3 py-2 text-sm outline-none focus:border-brand-300" />
         <button disabled={!label.trim()} onClick={() => { onAdd({ category, label: label.trim() }); setLabel(""); }} className="btn-primary disabled:opacity-50">
           <Icon name="ArrowRight" className="h-4 w-4" /> Add

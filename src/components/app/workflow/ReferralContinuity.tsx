@@ -22,7 +22,7 @@ export function ReferralContinuity() {
         <Icon name="Route" className="h-5 w-5 text-brand-600" />
         <h2 className="text-sm font-bold text-ink-900">Referral continuity — creation is not completion</h2>
       </div>
-      <p className="mt-1 text-xs text-ink-500">A referral being created does not mean care was completed. SamaritanLink follows the full chain.</p>
+      <p className="mt-1 max-w-prose text-sm text-ink-500">A referral being created does not mean care was completed. SamaritanLink follows the full chain.</p>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
         {CHAIN.map((step, i) => (

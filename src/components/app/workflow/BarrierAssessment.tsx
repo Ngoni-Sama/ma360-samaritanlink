@@ -28,7 +28,7 @@ export function BarrierAssessment() {
         <Icon name="ClipboardCheck" className="h-5 w-5 text-brand-600" />
         <h2 className="text-sm font-bold text-ink-900">Patient Access Barrier Assessment</h2>
       </div>
-      <p className="mt-1 text-xs text-ink-500">
+      <p className="mt-1 max-w-prose text-sm text-ink-500">
         Beyond “where does this patient need to go?” — what might prevent them getting there or completing care?
       </p>
 
@@ -45,13 +45,13 @@ export function BarrierAssessment() {
         {BARRIERS.map((b) => (
           <button
             key={b.key}
-            onClick={() => setSel((s) => ({ ...s, [b.key]: !s[b.key] }))}
+            type="button" aria-pressed={!!sel[b.key]} onClick={() => setSel((s) => ({ ...s, [b.key]: !s[b.key] }))}
             className={`flex items-start gap-2.5 rounded-2xl border px-3 py-2.5 text-left transition ${sel[b.key] ? "border-brand-500 bg-brand-50" : "border-white/60 bg-white/60 hover:bg-white"}`}
           >
             <Icon name={sel[b.key] ? "CheckCircle2" : b.icon} className={`mt-0.5 h-4.5 w-4.5 shrink-0 ${sel[b.key] ? "text-brand-600" : "text-ink-400"}`} />
             <span>
               <span className="block text-sm font-semibold text-ink-900">{b.label}</span>
-              <span className="block text-xs text-ink-500">{b.question}</span>
+              <span className="block text-sm text-ink-500">{b.question}</span>
             </span>
           </button>
         ))}

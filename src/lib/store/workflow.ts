@@ -1,8 +1,9 @@
 "use client";
 
-// Client workflow store — now server/DB-backed. Same public surface as before
-// (useWorkflow + workflow.*), so components are unchanged, but state persists in
-// Postgres and is shared across roles and devices.
+// Client workflow store, backed by Postgres through /api/workflow. State is shared
+// across roles and devices. A separate status store tracks loading, in-flight
+// saves and the last error, so screens can show loading, saving and error states
+// instead of silently ignoring failures.
 
 import { useEffect } from "react";
 import { useSyncExternalStore } from "react";
@@ -10,6 +11,7 @@ import { EMPTY_STATE, type WorkflowState } from "@/lib/workflow-types";
 
 export * from "@/lib/workflow-types"; // re-export types + flow constants
 
+// ---- data ----
 let state: WorkflowState = EMPTY_STATE;
 const listeners = new Set<() => void>();
 let inflight: Promise<void> | null = null;
@@ -19,25 +21,61 @@ function subscribe(l: () => void) { listeners.add(l); return () => listeners.del
 function getSnapshot() { return state; }
 function getServerSnapshot() { return EMPTY_STATE; }
 
+// ---- status ----
+export interface WorkflowStatus {
+  loaded: boolean; // first load finished (successfully or not)
+  pending: number; // saves in flight
+  error: string | null; // last failure, shown until dismissed or the next success
+}
+const SERVER_STATUS: WorkflowStatus = { loaded: false, pending: 0, error: null };
+let status: WorkflowStatus = SERVER_STATUS;
+const statusListeners = new Set<() => void>();
+
+function setStatus(patch: Partial<WorkflowStatus>) {
+  status = { ...status, ...patch };
+  statusListeners.forEach((l) => l());
+}
+function subscribeStatus(l: () => void) { statusListeners.add(l); return () => statusListeners.delete(l); }
+
+function errorFor(code: number | null, verb: "load" | "save"): string {
+  if (code === 401) return "Your session has ended. Sign in again to continue.";
+  return verb === "load"
+    ? "Couldn't load the latest care data. Check your connection, then refresh the page."
+    : "That change wasn't saved. Check your connection and try again.";
+}
+
 function load(): Promise<void> {
   if (inflight) return inflight;
   inflight = fetch("/api/workflow", { cache: "no-store" })
-    .then((r) => (r.ok ? r.json() : null))
-    .then((data) => { if (data) { state = data; emit(); } })
-    .catch(() => {})
+    .then(async (r) => {
+      if (!r.ok) { setStatus({ loaded: true, error: errorFor(r.status, "load") }); return; }
+      state = await r.json();
+      emit();
+      setStatus({ loaded: true });
+    })
+    .catch(() => setStatus({ loaded: true, error: errorFor(null, "load") }))
     .finally(() => { inflight = null; });
   return inflight;
 }
 
-async function apply(action: string, args: unknown) {
+async function apply(action: string, args: unknown): Promise<boolean> {
+  setStatus({ pending: status.pending + 1, error: null });
   try {
     const res = await fetch("/api/workflow", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action, args }),
     });
-    if (res.ok) { state = await res.json(); emit(); }
-  } catch { /* ignore */ }
+    if (!res.ok) { setStatus({ error: errorFor(res.status, "save") }); return false; }
+    state = await res.json();
+    emit();
+    return true;
+  } catch {
+    setStatus({ error: errorFor(null, "save") });
+    return false;
+  } finally {
+    setStatus({ pending: Math.max(0, status.pending - 1) });
+  }
 }
 
 export function useWorkflow(): WorkflowState {
@@ -46,6 +84,13 @@ export function useWorkflow(): WorkflowState {
   return snap;
 }
 
+export function useWorkflowStatus(): WorkflowStatus {
+  return useSyncExternalStore(subscribeStatus, () => status, () => SERVER_STATUS);
+}
+
+export function dismissWorkflowError() { setStatus({ error: null }); }
+
+// Every action resolves to true when the change was saved, false otherwise.
 export const workflow = {
   issuePrescription: (p: { patientId: string; patientName: string; items: string; pharmacy: string; issuedBy: string }) => apply("issuePrescription", p),
   advanceRx: (id: string) => apply("advanceRx", { id }),

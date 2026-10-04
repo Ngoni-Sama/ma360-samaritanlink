@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { toGsm } from "@/lib/gsm";
 
 export const dynamic = "force-dynamic";
 
@@ -44,6 +45,6 @@ async function handle(raw: string): Promise<string> {
 
 export async function POST(request: Request) {
   const { text } = await request.json().catch(() => ({ text: "" }));
-  const reply = await handle(String(text || ""));
+  const reply = toGsm(await handle(String(text || "")));
   return NextResponse.json({ reply });
 }

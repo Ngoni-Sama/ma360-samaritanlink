@@ -50,7 +50,7 @@ export function LandingNav() {
           </Link>
         </div>
 
-        <button className="btn-ghost px-2 md:hidden" onClick={() => setOpen((v) => !v)} aria-label="Toggle menu">
+        <button className="flex h-11 w-11 items-center justify-center rounded-full text-ink-700 hover:bg-brand-50 md:hidden" onClick={() => setOpen((v) => !v)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
           <Icon name={open ? "X" : "Menu"} className="h-5 w-5" />
         </button>
       </div>
@@ -63,7 +63,7 @@ export function LandingNav() {
                 key={l.label}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="rounded-xl px-4 py-3 text-sm font-semibold text-ink-700 hover:bg-brand-50"
+                className="flex min-h-12 items-center rounded-xl px-4 text-sm font-semibold text-ink-700 hover:bg-brand-50"
               >
                 {l.label}
               </a>

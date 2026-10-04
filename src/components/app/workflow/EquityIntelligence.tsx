@@ -22,7 +22,7 @@ export function EquityIntelligence() {
         <h2 className="text-sm font-bold text-ink-900">Health Intelligence — equity lens</h2>
         <span className="pill ml-auto border border-ink-200 bg-white/70 text-ink-500">Demo</span>
       </div>
-      <p className="mt-1 text-xs text-ink-500">
+      <p className="mt-1 max-w-prose text-sm text-ink-500">
         Beyond counting activity — understanding equitable access and continuity across the population.
       </p>
 

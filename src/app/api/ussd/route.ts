@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { toGsm } from "@/lib/gsm";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +30,7 @@ async function appointments(id: string): Promise<string> {
 }
 
 function reply(text: string) {
-  return new NextResponse(text, { headers: { "Content-Type": "text/plain" } });
+  return new NextResponse(toGsm(text), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
 }
 
 async function handle(text: string): Promise<string> {

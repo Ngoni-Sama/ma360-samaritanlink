@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { GlassCard } from "@/components/ui/primitives";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/app/PageHeader";
 
 export interface PatientRow {
@@ -42,17 +43,19 @@ export function PatientSearchClient({ patients, nextId }: { patients: PatientRow
       />
 
       <GlassCard className="mb-4">
-        <div className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/80 px-4 py-2.5">
-          <Icon name="Search" className="h-5 w-5 text-ink-400" />
+        <div className="flex items-center gap-2 rounded-2xl border border-white/70 bg-white/80 pl-4 pr-1 focus-within:border-brand-300 focus-within:ring-2 focus-within:ring-brand-200">
+          <Icon name="Search" className="h-5 w-5 shrink-0 text-ink-400" />
           <input
+            type="search"
+            aria-label="Search patients by SamaritanLink ID, name or national ID"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="e.g. SL-P-2026-000001, Tendai Moyo, or 63-1234567-A-42"
-            className="w-full bg-transparent text-sm text-ink-900 outline-none"
+            className="min-h-11 w-full bg-transparent text-sm text-ink-900 outline-none"
             autoFocus
           />
           {q && (
-            <button onClick={() => setQ("")} className="text-ink-400 hover:text-ink-700" aria-label="Clear">
+            <button type="button" onClick={() => setQ("")} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink-500 hover:bg-ink-50 hover:text-ink-800" aria-label="Clear search">
               <Icon name="X" className="h-4 w-4" />
             </button>
           )}
@@ -83,9 +86,12 @@ export function PatientSearchClient({ patients, nextId }: { patients: PatientRow
           </Link>
         ))}
         {results.length === 0 && (
-          <GlassCard className="text-center text-sm text-ink-500">
-            No patient found for “{q}”. Check the SamaritanLink ID and try again.
-          </GlassCard>
+          <EmptyState
+            icon="Search"
+            title={`No patient matches “${q}”`}
+            hint="Check the ID format (SL-P-2026-000001), or search by name or national ID instead."
+            action={{ label: "Clear search", onClick: () => setQ("") }}
+          />
         )}
       </div>
     </>

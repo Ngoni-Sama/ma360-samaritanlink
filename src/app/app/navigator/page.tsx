@@ -68,7 +68,7 @@ export default function NavigatorPage() {
 
       <div className="mb-4 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
         <Icon name="Shield" className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
-        <p className="text-sm text-amber-800">
+        <p className="max-w-prose text-sm text-amber-900">
           <span className="font-semibold">AI Health Navigation Assistant.</span> General information and navigation only.
           It does not diagnose, prescribe, or replace a doctor or nurse. In an emergency, seek immediate care.
         </p>
@@ -121,7 +121,7 @@ export default function NavigatorPage() {
         {messages.filter((m) => m.role === "user").length === 0 && (
           <div className="flex flex-wrap gap-2 px-4 pb-2 sm:px-5">
             {EXAMPLES.map((ex) => (
-              <button key={ex} onClick={() => send(ex)} className="pill border border-ink-200 bg-white/70 text-ink-600 hover:bg-white">
+              <button type="button" key={ex} onClick={() => send(ex)} className="pill min-h-10 border border-ink-200 bg-white/70 text-sm text-ink-700 hover:bg-white">
                 {ex}
               </button>
             ))}
@@ -140,6 +140,7 @@ export default function NavigatorPage() {
               if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); }
             }}
             rows={1}
+            aria-label="Describe your health need"
             placeholder="Describe your health need…"
             className="max-h-32 min-h-[44px] flex-1 resize-none rounded-2xl border border-white/70 bg-white/80 px-4 py-3 text-sm text-ink-900 outline-none backdrop-blur focus:border-brand-300 focus:ring-2 focus:ring-brand-200"
           />

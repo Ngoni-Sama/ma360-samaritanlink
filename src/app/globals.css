@@ -20,6 +20,17 @@
     background-attachment: fixed;
     min-height: 100vh;
   }
+  /* Visible keyboard focus on every interactive element (WCAG 2.4.7). Inputs keep
+     their own focus ring; buttons styled with .btn use the ring defined below. */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  select:focus-visible,
+  [role="tab"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid theme("colors.brand.600");
+    outline-offset: 2px;
+  }
 }
 
 @layer components {
@@ -37,7 +48,8 @@
     @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium;
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70;
+    /* min-h-11 = 44px tap target (Apple HIG / Material); focus ring clears the fill. */
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed;
   }
   .btn-primary {
     @apply btn bg-brand-600 text-white shadow-glass hover:bg-brand-700;

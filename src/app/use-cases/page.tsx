@@ -36,7 +36,7 @@ export default function UseCasesPage() {
           ))}
           <GlassCard className="flex flex-col justify-center bg-brand-900/90 text-white">
             <p className="text-sm font-semibold">PATIENT REACHED → CONNECTED → CONTINUED → OUTCOME</p>
-            <p className="mt-2 text-xs text-brand-50/80">Equity is one lens for understanding access and continuity — alongside age, disability, geography and affordability.</p>
+            <p className="mt-2 text-sm text-brand-50/90">Equity is one lens for understanding access and continuity — alongside age, disability, geography and affordability.</p>
           </GlassCard>
         </div>
       </div>

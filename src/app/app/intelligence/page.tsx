@@ -79,20 +79,20 @@ export default async function IntelligencePage() {
       {/* Care continuum funnel */}
       <GlassCard className="mb-4">
         <h2 className="text-sm font-bold text-ink-900">Care continuum — coverage funnel</h2>
-        <p className="text-xs text-ink-500">Live counts across the connected journey (grows as the platform is used).</p>
+        <p className="mt-0.5 text-sm text-ink-500">Live counts across the connected journey. They grow as the platform is used.</p>
         <div className="mt-4 space-y-2.5">
           {funnel.map((f, i) => (
             <div key={f.label} className="flex items-center gap-3">
-              <div className="flex w-40 shrink-0 items-center gap-2">
+              <div className="flex w-28 shrink-0 items-center gap-2 sm:w-44">
                 <Icon name={f.icon} className="h-4 w-4 text-brand-600" />
-                <span className="text-xs font-medium text-ink-700">{f.label}</span>
+                <span className="text-xs font-medium text-ink-700 sm:text-sm">{f.label}</span>
               </div>
               <div className="h-7 flex-1 overflow-hidden rounded-full bg-ink-100">
-                <div className="flex h-full items-center justify-end rounded-full bg-brand-500 px-3 text-xs font-bold text-white transition-all" style={{ width: `${Math.max(8, pct(f.value, funnelMax))}%` }}>
+                <div className="flex h-full items-center justify-end rounded-full bg-brand-700 px-3 text-xs font-bold tabular-nums text-white transition-all" style={{ width: `${Math.max(8, pct(f.value, funnelMax))}%` }}>
                   {f.value}
                 </div>
               </div>
-              {i > 0 && <span className="w-12 shrink-0 text-right text-xs text-ink-400">{pct(f.value, funnel[0].value)}%</span>}
+              {i > 0 && <span className="w-12 shrink-0 text-right text-xs tabular-nums text-ink-500">{pct(f.value, funnel[0].value)}%</span>}
             </div>
           ))}
         </div>
@@ -103,11 +103,11 @@ export default async function IntelligencePage() {
         {rates.map((r) => (
           <GlassCard key={r.label}>
             <p className="text-xs font-medium text-ink-500">{r.label}</p>
-            <p className="mt-1 text-2xl font-bold text-ink-900">{pct(r.n, r.d)}%</p>
+            <p className="mt-1 text-2xl font-bold tabular-nums text-ink-900">{pct(r.n, r.d)}%</p>
             <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-ink-100">
               <div className="h-full rounded-full bg-brand-500" style={{ width: `${pct(r.n, r.d)}%` }} />
             </div>
-            <p className="mt-1.5 text-[11px] text-ink-400">{r.n}/{r.d} {r.hint}</p>
+            <p className="mt-1.5 text-xs text-ink-500"><span className="tabular-nums">{r.n}/{r.d}</span> {r.hint}</p>
           </GlassCard>
         ))}
       </div>
@@ -116,12 +116,12 @@ export default async function IntelligencePage() {
       <div className="mb-4 grid gap-4 lg:grid-cols-2">
         <GlassCard>
           <h2 className="text-sm font-bold text-ink-900">Access by sex</h2>
-          <p className="text-xs text-ink-500">Who is entering care (equity lens).</p>
+          <p className="mt-0.5 text-sm text-ink-500">Who is entering care, by sex.</p>
           <BreakdownBars rows={bySex.map((r) => ({ label: r.sex, value: r._count._all }))} />
         </GlassCard>
         <GlassCard>
           <h2 className="text-sm font-bold text-ink-900">Access by location</h2>
-          <p className="text-xs text-ink-500">Geographic reach across communities.</p>
+          <p className="mt-0.5 text-sm text-ink-500">Geographic reach across communities.</p>
           <BreakdownBars rows={byLocation.map((r) => ({ label: r.location, value: r._count._all }))} />
         </GlassCard>
       </div>
@@ -134,12 +134,12 @@ export default async function IntelligencePage() {
             <h2 className="text-sm font-bold text-ink-900">Pilot programme targets</h2>
             <span className="pill border border-ink-200 bg-white/70 text-ink-500">Illustrative</span>
           </div>
-          <p className="text-xs text-ink-500">Aggregate figures for a full pilot cohort (synthetic).</p>
+          <p className="mt-0.5 text-sm text-ink-500">Aggregate figures for a full pilot cohort. Synthetic, for planning only.</p>
           <div className="mt-3 grid grid-cols-2 gap-2">
             {ADMIN_METRICS.slice(0, 6).map((m) => (
               <div key={m.label} className="rounded-2xl border border-white/60 bg-white/60 px-3 py-2.5">
-                <p className="text-lg font-bold text-ink-900">{m.value}</p>
-                <p className="text-[11px] text-ink-500">{m.label}</p>
+                <p className="text-lg font-bold tabular-nums text-ink-900">{m.value}</p>
+                <p className="text-xs text-ink-500">{m.label}</p>
               </div>
             ))}
           </div>
@@ -157,7 +157,7 @@ function BreakdownBars({ rows }: { rows: { label: string; value: number }[] }) {
         <div key={r.label} className="flex items-center gap-3">
           <span className="w-28 shrink-0 truncate text-xs font-medium text-ink-700">{r.label}</span>
           <div className="h-6 flex-1 overflow-hidden rounded-full bg-ink-100">
-            <div className="flex h-full items-center justify-end rounded-full bg-brand-400 px-2.5 text-[11px] font-bold text-white" style={{ width: `${Math.max(12, (r.value / max) * 100)}%` }}>
+            <div className="flex h-full items-center justify-end rounded-full bg-brand-700 px-2.5 text-[11px] font-bold text-white" style={{ width: `${Math.max(12, (r.value / max) * 100)}%` }}>
               {r.value}
             </div>
           </div>

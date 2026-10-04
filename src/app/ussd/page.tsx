@@ -24,7 +24,7 @@ export default function UssdSimulator() {
 
       <div className="mb-5 flex gap-2">
         {(["ussd", "sms"] as Mode[]).map((m) => (
-          <button key={m} onClick={() => setMode(m)}
+          <button type="button" key={m} aria-pressed={mode === m} onClick={() => setMode(m)}
             className={`pill border ${mode === m ? "border-brand-500 bg-brand-600 text-white" : "border-ink-200 bg-white/70 text-ink-600"}`}>
             <Icon name={m === "ussd" ? "Phone" : "MessageSquareText"} className="h-3.5 w-3.5" />
             {m === "ussd" ? "USSD  *365#" : "SMS to 365"}
@@ -64,11 +64,16 @@ function UssdPhone() {
     setBusy(true);
     try {
       const r = await fetch("/api/ussd", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
+      if (!r.ok) throw new Error(String(r.status));
       const body = await r.text();
       const isEnd = body.startsWith("END");
       setScreen(body.replace(/^(CON|END)\s?/, ""));
       setEnded(isEnd);
       setAcc(isEnd ? "" : newAcc);
+    } catch {
+      setScreen("Connection problem. The request did not go through.\n\nDial *365# to try again.");
+      setEnded(true);
+      setAcc("");
     } finally { setBusy(false); setInput(""); }
   }
 
@@ -84,7 +89,7 @@ function UssdPhone() {
           </button>
         ) : (
           <form onSubmit={(e) => { e.preventDefault(); const na = acc ? `${acc}*${input}` : input; send(na, na); }} className="flex gap-2">
-            <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Reply…" autoFocus
+            <input aria-label="USSD reply" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Reply…" autoFocus
               className="flex-1 rounded-full border border-white/20 bg-white/90 px-4 py-2.5 text-sm text-ink-900 outline-none" />
             <button disabled={busy || !input} className="btn-primary px-4 disabled:opacity-50"><Icon name="Send" className="h-4 w-4" /></button>
           </form>
@@ -108,8 +113,12 @@ function SmsPhone() {
     setInput(""); setBusy(true);
     try {
       const r = await fetch("/api/sms", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
+      if (!r.ok) throw new Error(String(r.status));
       const { reply } = await r.json();
       setLog((l) => [...l, { me: false, text: reply }]);
+    } catch {
+      setLog((l) => [...l, { me: false, text: "Message not delivered. Check your connection and send it again." }]);
+      setInput(text);
     } finally { setBusy(false); }
   }
 
@@ -123,7 +132,7 @@ function SmsPhone() {
         ))}
       </div>
       <form onSubmit={(e) => { e.preventDefault(); send(); }} className="mt-3 flex gap-2">
-        <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="e.g. MEDS SL-P-2026-000001"
+        <input aria-label="SMS message" value={input} onChange={(e) => setInput(e.target.value)} placeholder="e.g. MEDS SL-P-2026-000001"
           className="flex-1 rounded-full border border-white/20 bg-white/90 px-4 py-2.5 text-sm text-ink-900 outline-none" />
         <button disabled={busy || !input} className="btn-primary px-4 disabled:opacity-50"><Icon name="Send" className="h-4 w-4" /></button>
       </form>

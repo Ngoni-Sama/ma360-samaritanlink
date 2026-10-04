@@ -28,7 +28,7 @@ const config: Config = {
           100: "#e6eaec",
           200: "#ccd3d7",
           300: "#a4b0b6",
-          400: "#74858d",
+          400: "#63747b", // 4.9:1 on white (was #74858d at 3.8:1, below WCAG AA)
           500: "#586a72",
           600: "#45535a",
           700: "#3a454b",
@@ -55,6 +55,9 @@ const config: Config = {
       },
       borderRadius: {
         "4xl": "2rem",
+      },
+      spacing: {
+        4.5: "1.125rem", // used for 18px icons (h-4.5 w-4.5) across the app
       },
       keyframes: {
         "fade-up": {

@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { GlassCard, Tag } from "@/components/ui/primitives";
-import { useWorkflow, workflow, RX_FLOW, type RxStatus } from "@/lib/store/workflow";
+import { EmptyState, LoadingRows } from "@/components/ui/EmptyState";
+import { useWorkflow, useWorkflowStatus, workflow, RX_FLOW, type RxStatus } from "@/lib/store/workflow";
 
 const LABEL: Record<RxStatus, string> = {
   issued: "Issued", received: "Received", preparing: "Being prepared", ready: "Ready for collection", collected: "Collected",
@@ -17,6 +18,7 @@ const NEXT_LABEL: Record<RxStatus, string> = {
 
 export function PharmacyQueue() {
   const { prescriptions } = useWorkflow();
+  const { loaded, pending } = useWorkflowStatus();
 
   return (
     <GlassCard>
@@ -25,7 +27,15 @@ export function PharmacyQueue() {
         <Icon name="Pill" className="h-5 w-5 text-brand-600" />
       </div>
       <div className="mt-3 space-y-2.5">
-        {prescriptions.length === 0 && <p className="text-sm text-ink-500">No prescriptions in the queue.</p>}
+        {!loaded && <LoadingRows />}
+        {loaded && prescriptions.length === 0 && (
+          <EmptyState
+            icon="Pill"
+            title="No prescriptions waiting"
+            hint="When a clinician sends a prescription to this pharmacy, it appears here with a button to prepare it."
+            action={{ label: "Search patients", href: "/app/patients" }}
+          />
+        )}
         {prescriptions.map((rx) => {
           const done = rx.status === "collected";
           const idx = RX_FLOW.indexOf(rx.status);
@@ -43,13 +53,12 @@ export function PharmacyQueue() {
                 </div>
                 <Tag tone={TONE[rx.status]}>{LABEL[rx.status]}</Tag>
                 {!done && (
-                  <button onClick={() => workflow.advanceRx(rx.id)} className="btn-primary px-3 py-1.5 text-xs">
+                  <button onClick={() => workflow.advanceRx(rx.id)} disabled={pending > 0} className="btn-primary px-3 py-1.5 text-xs disabled:opacity-60">
                     {NEXT_LABEL[rx.status]}
                   </button>
                 )}
               </div>
-              {/* progress bar */}
-              <div className="mt-2.5 flex gap-1">
+              <div className="mt-2.5 flex gap-1" aria-hidden>
                 {RX_FLOW.map((s, i) => (
                   <span key={s} className={`h-1.5 flex-1 rounded-full ${i <= idx ? "bg-brand-500" : "bg-ink-100"}`} />
                 ))}
@@ -58,7 +67,7 @@ export function PharmacyQueue() {
           );
         })}
       </div>
-      <p className="mt-3 text-xs text-ink-400">Marking &ldquo;Ready&rdquo; notifies the patient by SMS/WhatsApp (demo).</p>
+      <p className="mt-3 text-sm text-ink-500">Marking a prescription ready sends the patient an SMS or WhatsApp message.</p>
     </GlassCard>
   );
 }

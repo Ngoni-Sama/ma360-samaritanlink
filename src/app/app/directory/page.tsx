@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { GlassCard, Tag } from "@/components/ui/primitives";
 import { PageHeader } from "@/components/app/PageHeader";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { SERVICE_CATEGORIES, DIRECTORY_PROVIDERS, CARE_PATHWAYS } from "@/lib/data/directory";
 
 export default function DirectoryPage() {
@@ -48,19 +49,21 @@ export default function DirectoryPage() {
 
       {/* Search + category filter */}
       <GlassCard className="mb-4">
-        <div className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/80 px-4 py-2.5">
-          <Icon name="Search" className="h-5 w-5 text-ink-400" />
+        <div className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/80 px-4 focus-within:border-brand-300 focus-within:ring-2 focus-within:ring-brand-200">
+          <Icon name="Search" className="h-5 w-5 shrink-0 text-ink-400" />
           <input
+            type="search"
+            aria-label="Search providers by name, specialty, location or provider ID"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by name, specialty, location or provider ID"
-            className="w-full bg-transparent text-sm text-ink-900 outline-none"
+            className="min-h-11 w-full bg-transparent text-sm text-ink-900 outline-none"
           />
         </div>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <button onClick={() => setCat("all")} className={chip(cat === "all")}>All</button>
+        <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+          <button type="button" onClick={() => setCat("all")} aria-pressed={cat === "all"} className={chip(cat === "all")}>All</button>
           {SERVICE_CATEGORIES.map((c) => (
-            <button key={c.key} onClick={() => setCat(c.key)} className={chip(cat === c.key)}>
+            <button type="button" key={c.key} onClick={() => setCat(c.key)} aria-pressed={cat === c.key} className={chip(cat === c.key)}>
               <Icon name={c.icon} className="h-3.5 w-3.5" /> {c.label}
             </button>
           ))}
@@ -78,15 +81,20 @@ export default function DirectoryPage() {
               <Tag tone={p.available ? "green" : "neutral"}>{p.available ? "Available" : "By appointment"}</Tag>
             </div>
             <h3 className="mt-3 text-sm font-bold text-ink-900">{p.name}</h3>
-            <p className="text-xs text-ink-500">{p.specialty}</p>
-            <p className="mt-1 text-xs text-ink-400">{p.facility} · {p.location}</p>
+            <p className="text-sm text-ink-600">{p.specialty}</p>
+            <p className="mt-1 text-xs text-ink-500">{p.facility} · {p.location}</p>
             <p className="mt-2 font-mono text-xs text-brand-700">{p.id}</p>
           </GlassCard>
         ))}
         {providers.length === 0 && (
-          <GlassCard className="text-center text-sm text-ink-500 sm:col-span-2 lg:col-span-3">
-            No providers match your search.
-          </GlassCard>
+          <div className="sm:col-span-2 lg:col-span-3">
+            <EmptyState
+              icon="Search"
+              title="No providers match these filters"
+              hint="Try a different spelling, a broader category, or search by town instead."
+              action={{ label: "Clear search and filters", onClick: () => { setQ(""); setCat("all"); } }}
+            />
+          </div>
         )}
       </div>
     </>
@@ -94,5 +102,5 @@ export default function DirectoryPage() {
 }
 
 function chip(active: boolean) {
-  return `pill border ${active ? "border-brand-500 bg-brand-600 text-white" : "border-ink-200 bg-white/70 text-ink-600 hover:bg-white"}`;
+  return `pill min-h-10 border px-3.5 text-sm ${active ? "border-brand-600 bg-brand-600 text-white" : "border-ink-200 bg-white/70 text-ink-700 hover:bg-white"}`;
 }

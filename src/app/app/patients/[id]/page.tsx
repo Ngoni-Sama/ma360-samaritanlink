@@ -166,7 +166,7 @@ export default async function PatientProfile({ params }: { params: { id: string 
                 <h2 className="text-sm font-bold text-ink-900">My Care Journey</h2>
                 <Icon name="Route" className="h-5 w-5 text-brand-600" />
               </div>
-              <p className="mb-4 mt-1 text-xs text-ink-500">One connected history across every provider.</p>
+              <p className="mb-4 mt-1 text-sm text-ink-500">One connected history across every provider.</p>
               <CareJourney events={journey} simple={user.role === "admin"} />
             </GlassCard>
           )}

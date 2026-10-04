@@ -42,7 +42,7 @@ export function SiteSignIn() {
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
         {ROLES.map((r) => (
-          <button key={r.email} disabled={busy} onClick={() => signIn(r.email, r.label)}
+          <button type="button" key={r.email} aria-pressed={active === r.label} disabled={busy} onClick={() => signIn(r.email, r.label)}
             className={`pill border disabled:opacity-50 ${active === r.label ? "border-brand-500 bg-brand-600 text-white" : "border-ink-200 bg-white/70 text-ink-700 hover:bg-white"}`}>
             {r.label}
           </button>

@@ -30,7 +30,7 @@ export function SmartTasks({ role }: { role: string }) {
             </div>
           );
           return t.patientId ? (
-            <Link key={t.id} href={`/app/patients/${t.patientId}`} className="block transition hover:opacity-90">
+            <Link key={t.id} href={`/app/patients/${t.patientId}`} className="block rounded-2xl transition hover:opacity-90">
               {body}
             </Link>
           ) : (

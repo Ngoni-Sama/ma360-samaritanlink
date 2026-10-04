@@ -243,7 +243,7 @@ export function ProfessionalDashboard({ name }: { name: string }) {
           </span>
           <div>
             <p className="text-sm font-bold text-ink-900">Search a patient by SamaritanLink ID</p>
-            <p className="text-xs text-ink-500">Open a connected profile and care journey</p>
+            <p className="text-sm text-ink-500">Open a connected profile and care journey</p>
           </div>
           <Icon name="ArrowRight" className="ml-auto h-4 w-4 text-brand-400" />
         </Link>
