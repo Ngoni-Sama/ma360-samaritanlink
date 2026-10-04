@@ -30,6 +30,19 @@ function requireCareTeam(viewer: Viewer) {
   if (!CARE_TEAM.includes(viewer.role)) throw new ActionError("Only the care team can update referrals.", 403);
 }
 
+function requireText(value: unknown, message: string): string {
+  const s = typeof value === "string" ? value.trim() : "";
+  if (!s) throw new ActionError(message);
+  return s.slice(0, 300);
+}
+
+async function findReferral(id: unknown) {
+  if (typeof id !== "string" || !id) throw new ActionError("Choose a referral.");
+  const r = await db.referral.findUnique({ where: { id } });
+  if (!r) throw new ActionError("That referral no longer exists.", 404);
+  return r;
+}
+
 function requireBarrier(key: unknown): BarrierKey {
   if (typeof key !== "string" || !BARRIER_KEYS.has(key)) throw new ActionError("Choose a barrier from the list.");
   return key as BarrierKey;
@@ -115,14 +128,18 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
     // ---- Closed-loop referrals ----
     case "createReferral": {
       requireCareTeam(viewer);
-      await db.referral.create({ data: { patientId: args.patientId, patientName: args.patientName, fromProvider: args.from, toProvider: args.to, reason: args.reason, status: "created" } });
-      await notify("patient", "SMS", `A referral has been created for you to ${args.to}. You will be contacted with the next steps.`);
+      const patientId = requireText(args.patientId, "Choose a patient.");
+      const patient = await db.patient.findUnique({ where: { patientId }, select: { name: true } });
+      if (!patient) throw new ActionError("Patient record not found.", 404);
+      const toProvider = requireText(args.to, "Choose where to refer the patient.");
+      const reason = requireText(args.reason, "Give a reason for the referral.");
+      await db.referral.create({ data: { patientId, patientName: patient.name, fromProvider: requireText(args.from, "Missing referring provider."), toProvider, reason, status: "created" } });
+      await notify("patient", "SMS", `A referral has been created for you to ${toProvider}. You will be contacted with the next steps.`);
       break;
     }
     case "advanceReferral": {
       requireCareTeam(viewer);
-      const r = await db.referral.findUnique({ where: { id: args.id } });
-      if (!r) throw new ActionError("That referral no longer exists.", 404);
+      const r = await findReferral(args.id);
       if (r.stalled) throw new ActionError("Record how the barrier was addressed before moving this referral on.");
       const n = next(REFERRAL_FLOW, r.status as ReferralStatus);
       if (n === "received") await notify("patient", "SMS", `${r.toProvider} has received your referral. They will contact you with an appointment.`);
@@ -135,8 +152,7 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
     case "stallReferral": {
       requireCareTeam(viewer);
       const barrier = requireBarrier(args.barrier);
-      const r = await db.referral.findUnique({ where: { id: args.id } });
-      if (!r) throw new ActionError("That referral no longer exists.", 404);
+      const r = await findReferral(args.id);
       if (r.status === "followup") throw new ActionError("This referral is already complete.");
       const stuckBefore = next(REFERRAL_FLOW, r.status as ReferralStatus);
       const note = String(args.note ?? "").trim().slice(0, 300) || null;
@@ -147,8 +163,7 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
     }
     case "resolveReferral": {
       requireCareTeam(viewer);
-      const r = await db.referral.findUnique({ where: { id: args.id } });
-      if (!r) throw new ActionError("That referral no longer exists.", 404);
+      const r = await findReferral(args.id);
       const response = String(args.response ?? "").trim().slice(0, 300);
       if (!response) throw new ActionError("Describe how the barrier was addressed.");
       await db.referral.update({ where: { id: r.id }, data: { stalled: false, barrierResponse: response } });
