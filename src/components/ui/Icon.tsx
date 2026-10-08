@@ -7,6 +7,7 @@ import {
   Package, Pill, Route, Send, Shield, ShieldCheck, Stethoscope, Users, UserRound,
   X, Building2, GraduationCap, Landmark, TestTube, Truck, ClipboardCheck,
   Cross, Mail, Phone, ExternalLink, Search, Fingerprint,
+  PlayCircle, Video, ChevronLeft, ChevronRight, Clock, Smartphone, Monitor, XCircle, Images,
   type LucideIcon,
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ const ICONS: Record<string, LucideIcon> = {
   Package, Pill, Route, Send, Shield, ShieldCheck, Stethoscope, Users, UserRound,
   X, Building2, GraduationCap, Landmark, TestTube, Truck, ClipboardCheck,
   Cross, Mail, Phone, ExternalLink, Search, IdCard: Fingerprint,
+  PlayCircle, Video, ChevronLeft, ChevronRight, Clock, Smartphone, Monitor, XCircle, Images,
 };
 
 export function Icon({

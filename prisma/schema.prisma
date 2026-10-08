@@ -188,9 +188,12 @@ model HomeVisit {
 model Notification {
   id        String   @id @default(cuid())
   recipient String // patient | doctor | pharmacy | laboratory
+  patientId String? // the patient a message is about; patients only ever see their own
   channel   String // SMS | WhatsApp | In-app
   text      String
   createdAt DateTime @default(now())
+
+  @@index([recipient, patientId])
 }
 
 model AuditLog {

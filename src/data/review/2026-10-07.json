@@ -1,0 +1,782 @@
+{
+  "id": "2026-10-07",
+  "base": "https://ma360-samaritanlink.vercel.app",
+  "startedAt": "2026-10-07T20:22:54.567Z",
+  "finishedAt": "2026-10-07T20:26:30.191Z",
+  "fullVideo": "/review/2026-10-07/video/full-test.mp4",
+  "stages": [
+    {
+      "num": 1,
+      "name": "Public website",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-01-public-website.mp4",
+      "duration": 18.3,
+      "startsAt": 0,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Open the landing page",
+          "ok": true,
+          "error": null,
+          "ms": 4470,
+          "url": "/",
+          "shot": "/review/2026-10-07/shots/s01-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Health Access Equity layer is on the landing page",
+          "ok": true,
+          "error": null,
+          "ms": 646,
+          "url": "/",
+          "shot": "/review/2026-10-07/shots/s01-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Nav: How It Works opens its own page",
+          "ok": true,
+          "error": null,
+          "ms": 2538,
+          "url": "/how-it-works",
+          "shot": "/review/2026-10-07/shots/s01-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Breadcrumb Home returns to the landing page",
+          "ok": true,
+          "error": null,
+          "ms": 657,
+          "url": "/",
+          "shot": "/review/2026-10-07/shots/s01-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "For Organisations page",
+          "ok": true,
+          "error": null,
+          "ms": 1576,
+          "url": "/for-organisations",
+          "shot": "/review/2026-10-07/shots/s01-05.jpg"
+        },
+        {
+          "n": 6,
+          "title": "Equity page",
+          "ok": true,
+          "error": null,
+          "ms": 1630,
+          "url": "/equity",
+          "shot": "/review/2026-10-07/shots/s01-06.jpg"
+        },
+        {
+          "n": 7,
+          "title": "Use Cases page",
+          "ok": true,
+          "error": null,
+          "ms": 1618,
+          "url": "/use-cases",
+          "shot": "/review/2026-10-07/shots/s01-07.jpg"
+        },
+        {
+          "n": 8,
+          "title": "Access SamaritanLink goes to sign in",
+          "ok": true,
+          "error": null,
+          "ms": 1087,
+          "url": "/login",
+          "shot": "/review/2026-10-07/shots/s01-08.jpg"
+        }
+      ]
+    },
+    {
+      "num": 2,
+      "name": "Sign-in and access control",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-02-sign-in-and-access-control.mp4",
+      "duration": 12.3,
+      "startsAt": 18.3,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 401 ()"
+      ],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "App pages redirect to sign-in when logged out",
+          "ok": true,
+          "error": null,
+          "ms": 2118,
+          "url": "/login",
+          "shot": "/review/2026-10-07/shots/s02-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Wrong password is rejected with a clear message",
+          "ok": true,
+          "error": null,
+          "ms": 1545,
+          "url": "/login",
+          "shot": "/review/2026-10-07/shots/s02-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Clinician signs in",
+          "ok": true,
+          "error": null,
+          "ms": 2714,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s02-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Non-admin cannot open the M&E dashboard",
+          "ok": true,
+          "error": null,
+          "ms": 1861,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s02-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "Log out returns to sign-in (no error page)",
+          "ok": true,
+          "error": null,
+          "ms": 1241,
+          "url": "/login",
+          "shot": "/review/2026-10-07/shots/s02-05.jpg"
+        }
+      ]
+    },
+    {
+      "num": 3,
+      "name": "Clinician",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-03-clinician.mp4",
+      "duration": 20.7,
+      "startsAt": 30.6,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Sign in as Dr. Farai Chikowore",
+          "ok": true,
+          "error": null,
+          "ms": 3432,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s03-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Dashboard lists care journeys needing follow-up",
+          "ok": true,
+          "error": null,
+          "ms": 441,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s03-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Search patient by SamaritanLink ID",
+          "ok": true,
+          "error": null,
+          "ms": 3088,
+          "url": "/app/patients/SL-P-2026-000001",
+          "shot": "/review/2026-10-07/shots/s03-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Profile shows care journey, referrals and barriers",
+          "ok": true,
+          "error": null,
+          "ms": 449,
+          "url": "/app/patients/SL-P-2026-000001",
+          "shot": "/review/2026-10-07/shots/s03-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "Prescribe: send to Unity Pharmacy",
+          "ok": true,
+          "error": null,
+          "ms": 1176,
+          "url": "/app/patients/SL-P-2026-000001",
+          "shot": "/review/2026-10-07/shots/s03-05.jpg"
+        },
+        {
+          "n": 6,
+          "title": "Request lab test",
+          "ok": true,
+          "error": null,
+          "ms": 1323,
+          "url": "/app/patients/SL-P-2026-000001",
+          "shot": "/review/2026-10-07/shots/s03-06.jpg"
+        },
+        {
+          "n": 7,
+          "title": "Schedule review for another patient (Chipo Dube)",
+          "ok": true,
+          "error": null,
+          "ms": 2351,
+          "url": "/app/patients/SL-P-2026-000002",
+          "shot": "/review/2026-10-07/shots/s03-07.jpg"
+        },
+        {
+          "n": 8,
+          "title": "Create a referral",
+          "ok": true,
+          "error": null,
+          "ms": 3415,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s03-08.jpg"
+        },
+        {
+          "n": 9,
+          "title": "Confirm the referral was received",
+          "ok": true,
+          "error": null,
+          "ms": 890,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s03-09.jpg"
+        }
+      ]
+    },
+    {
+      "num": 4,
+      "name": "Pharmacy",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-04-pharmacy.mp4",
+      "duration": 9.2,
+      "startsAt": 51.3,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Sign in as Unity Pharmacy",
+          "ok": true,
+          "error": null,
+          "ms": 3519,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s04-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "New prescription from the clinician is in the queue",
+          "ok": true,
+          "error": null,
+          "ms": 430,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s04-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Start preparing",
+          "ok": true,
+          "error": null,
+          "ms": 931,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s04-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Mark ready (patient is notified)",
+          "ok": true,
+          "error": null,
+          "ms": 895,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s04-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "Mark collected",
+          "ok": true,
+          "error": null,
+          "ms": 891,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s04-05.jpg"
+        }
+      ]
+    },
+    {
+      "num": 5,
+      "name": "Laboratory",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-05-laboratory.mp4",
+      "duration": 10.8,
+      "startsAt": 60.5,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Sign in as MA360 Partner Laboratory",
+          "ok": true,
+          "error": null,
+          "ms": 3714,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s05-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Clinician request is in the queue",
+          "ok": true,
+          "error": null,
+          "ms": 423,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s05-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Collect sample",
+          "ok": true,
+          "error": null,
+          "ms": 907,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s05-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Start processing",
+          "ok": true,
+          "error": null,
+          "ms": 979,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s05-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "Enter result and mark results ready",
+          "ok": true,
+          "error": null,
+          "ms": 1125,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s05-05.jpg"
+        },
+        {
+          "n": 6,
+          "title": "Send to doctor (doctor and patient notified)",
+          "ok": true,
+          "error": null,
+          "ms": 858,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s05-06.jpg"
+        }
+      ]
+    },
+    {
+      "num": 6,
+      "name": "Community health worker",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-06-community-health-worker.mp4",
+      "duration": 17.4,
+      "startsAt": 71.3,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Sign in as Rutendo Nyathi (CHW)",
+          "ok": true,
+          "error": null,
+          "ms": 3430,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s06-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Follow-up list shows the two stalled journeys",
+          "ok": true,
+          "error": null,
+          "ms": 456,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s06-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Home visit: record outcome and complete",
+          "ok": true,
+          "error": null,
+          "ms": 1223,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s06-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Referrals: live stage summary",
+          "ok": true,
+          "error": null,
+          "ms": 1589,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s06-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "Filter: Needs attention",
+          "ok": true,
+          "error": null,
+          "ms": 758,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s06-05.jpg"
+        },
+        {
+          "n": 6,
+          "title": "Tendai: mark Not progressing (Cost)",
+          "ok": true,
+          "error": null,
+          "ms": 1527,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s06-06.jpg"
+        },
+        {
+          "n": 7,
+          "title": "Moving on is blocked until a response is recorded",
+          "ok": true,
+          "error": null,
+          "ms": 525,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s06-07.jpg"
+        },
+        {
+          "n": 8,
+          "title": "Record response and resume",
+          "ok": true,
+          "error": null,
+          "ms": 1065,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s06-08.jpg"
+        },
+        {
+          "n": 9,
+          "title": "Confirm next stage: treatment started",
+          "ok": true,
+          "error": null,
+          "ms": 1057,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s06-09.jpg"
+        },
+        {
+          "n": 10,
+          "title": "Blessing: respond to transport barrier and confirm attendance",
+          "ok": true,
+          "error": null,
+          "ms": 1640,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s06-10.jpg"
+        }
+      ]
+    },
+    {
+      "num": 7,
+      "name": "Patient",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-07-patient.mp4",
+      "duration": 65.4,
+      "startsAt": 88.69999999999999,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Sign in as Tendai Moyo",
+          "ok": true,
+          "error": null,
+          "ms": 3429,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s07-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Medicine shows as collected",
+          "ok": true,
+          "error": null,
+          "ms": 45441,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s07-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Lab test shows as with your doctor",
+          "ok": true,
+          "error": null,
+          "ms": 442,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s07-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Notifications include the pharmacy and lab updates",
+          "ok": true,
+          "error": null,
+          "ms": 434,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s07-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "Patient sees only their own messages (privacy)",
+          "ok": false,
+          "error": "another patient's message is visible in this patient's notifications",
+          "ms": 26,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s07-05.jpg"
+        },
+        {
+          "n": 6,
+          "title": "My Care Journey shows referrals and support arranged",
+          "ok": true,
+          "error": null,
+          "ms": 2098,
+          "url": "/app/journey",
+          "shot": "/review/2026-10-07/shots/s07-06.jpg"
+        },
+        {
+          "n": 7,
+          "title": "Health Navigator answers a question",
+          "ok": true,
+          "error": null,
+          "ms": 6139,
+          "url": "/app/navigator",
+          "shot": "/review/2026-10-07/shots/s07-07.jpg"
+        },
+        {
+          "n": 8,
+          "title": "Share a barrier (Transport) with the care team",
+          "ok": true,
+          "error": null,
+          "ms": 1138,
+          "url": "/app/navigator",
+          "shot": "/review/2026-10-07/shots/s07-08.jpg"
+        },
+        {
+          "n": 9,
+          "title": "Find Services: no-results state and clear",
+          "ok": true,
+          "error": null,
+          "ms": 1861,
+          "url": "/app/directory",
+          "shot": "/review/2026-10-07/shots/s07-09.jpg"
+        }
+      ]
+    },
+    {
+      "num": 8,
+      "name": "USSD and SMS (no smartphone)",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-08-ussd-and-sms-no-smartphone.mp4",
+      "duration": 8.9,
+      "startsAt": 154.1,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Open the simulator",
+          "ok": true,
+          "error": null,
+          "ms": 2357,
+          "url": "/ussd",
+          "shot": "/review/2026-10-07/shots/s08-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Dial *365#",
+          "ok": true,
+          "error": null,
+          "ms": 826,
+          "url": "/ussd",
+          "shot": "/review/2026-10-07/shots/s08-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Reply 2 (My medicines)",
+          "ok": true,
+          "error": null,
+          "ms": 956,
+          "url": "/ussd",
+          "shot": "/review/2026-10-07/shots/s08-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Enter ID: live medicine status, phone-safe text",
+          "ok": true,
+          "error": null,
+          "ms": 967,
+          "url": "/ussd",
+          "shot": "/review/2026-10-07/shots/s08-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "SMS: MEDS keyword",
+          "ok": true,
+          "error": null,
+          "ms": 1178,
+          "url": "/ussd",
+          "shot": "/review/2026-10-07/shots/s08-05.jpg"
+        }
+      ]
+    },
+    {
+      "num": 9,
+      "name": "Mobile layout",
+      "viewport": "390x844",
+      "video": "/review/2026-10-07/video/stage-09-mobile-layout.mp4",
+      "duration": 8.2,
+      "startsAt": 163,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Sign in on a phone-sized screen",
+          "ok": true,
+          "error": null,
+          "ms": 3845,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s09-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Bottom navigation is in thumb reach",
+          "ok": true,
+          "error": null,
+          "ms": 459,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s09-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "More opens the rest of the pages",
+          "ok": true,
+          "error": null,
+          "ms": 1276,
+          "url": "/app/pharmacy",
+          "shot": "/review/2026-10-07/shots/s09-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "No sideways scrolling",
+          "ok": true,
+          "error": null,
+          "ms": 427,
+          "url": "/app/pharmacy",
+          "shot": "/review/2026-10-07/shots/s09-04.jpg"
+        }
+      ]
+    },
+    {
+      "num": 10,
+      "name": "Build checklist (/site)",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-10-build-checklist-site.mp4",
+      "duration": 8.8,
+      "startsAt": 171.2,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Open the checklist",
+          "ok": true,
+          "error": null,
+          "ms": 2712,
+          "url": "/site",
+          "shot": "/review/2026-10-07/shots/s10-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Demo sign-in as Clinician",
+          "ok": true,
+          "error": null,
+          "ms": 1087,
+          "url": "/site",
+          "shot": "/review/2026-10-07/shots/s10-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Tick an item and untick it again",
+          "ok": true,
+          "error": null,
+          "ms": 1970,
+          "url": "/site",
+          "shot": "/review/2026-10-07/shots/s10-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Filter: Missing / gaps",
+          "ok": true,
+          "error": null,
+          "ms": 628,
+          "url": "/site",
+          "shot": "/review/2026-10-07/shots/s10-04.jpg"
+        }
+      ]
+    },
+    {
+      "num": 11,
+      "name": "Administrator and M&E",
+      "viewport": "1280x800",
+      "video": "/review/2026-10-07/video/stage-11-administrator-and-m-e.mp4",
+      "duration": 17,
+      "startsAt": 180,
+      "consoleErrors": [],
+      "fatal": null,
+      "steps": [
+        {
+          "n": 1,
+          "title": "Sign in as Administrator",
+          "ok": true,
+          "error": null,
+          "ms": 3519,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s11-01.jpg"
+        },
+        {
+          "n": 2,
+          "title": "Follow-up list includes the barrier the patient shared",
+          "ok": true,
+          "error": null,
+          "ms": 440,
+          "url": "/app",
+          "shot": "/review/2026-10-07/shots/s11-02.jpg"
+        },
+        {
+          "n": 3,
+          "title": "Open the M&E dashboard",
+          "ok": true,
+          "error": null,
+          "ms": 1267,
+          "url": "/app/intelligence",
+          "shot": "/review/2026-10-07/shots/s11-03.jpg"
+        },
+        {
+          "n": 4,
+          "title": "Referral continuity: where journeys break",
+          "ok": true,
+          "error": null,
+          "ms": 625,
+          "url": "/app/intelligence",
+          "shot": "/review/2026-10-07/shots/s11-04.jpg"
+        },
+        {
+          "n": 5,
+          "title": "Drop-off reasons include Cost; navigation barriers include Transport",
+          "ok": true,
+          "error": null,
+          "ms": 427,
+          "url": "/app/intelligence",
+          "shot": "/review/2026-10-07/shots/s11-05.jpg"
+        },
+        {
+          "n": 6,
+          "title": "Reset demo workflows",
+          "ok": true,
+          "error": null,
+          "ms": 7555,
+          "url": "/app/referrals",
+          "shot": "/review/2026-10-07/shots/s11-06.jpg"
+        }
+      ]
+    }
+  ]
+}

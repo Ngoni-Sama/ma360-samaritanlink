@@ -74,7 +74,10 @@ export default function SiteChecklist() {
             <span className="font-medium text-rose-600"> Remove this page (/site) before launch.</span>
           </p>
         </div>
-        <Link href="/" className="btn-secondary text-sm">View site</Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/review" className="btn-primary text-sm"><Icon name="PlayCircle" className="h-4 w-4" /> Test recordings</Link>
+          <Link href="/" className="btn-secondary text-sm">View site</Link>
+        </div>
       </div>
 
       <SiteSignIn />

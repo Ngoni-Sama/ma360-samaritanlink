@@ -22,8 +22,9 @@ function next<T extends string>(flow: readonly T[], cur: T): T {
   return flow[Math.min(i + 1, flow.length - 1)];
 }
 
-async function notify(recipient: string, channel: string, text: string) {
-  await db.notification.create({ data: { recipient, channel, text } });
+// patientId records who a message is about, so a patient only ever sees their own.
+async function notify(recipient: string, channel: string, text: string, patientId: string | null = null) {
+  await db.notification.create({ data: { recipient, channel, text, patientId } });
 }
 
 function requireCareTeam(viewer: Viewer) {
@@ -48,15 +49,24 @@ function requireBarrier(key: unknown): BarrierKey {
   return key as BarrierKey;
 }
 
+// A patient only receives their own records and messages. A patient login that is not
+// linked to a record gets nothing. Providers get every record and all non-patient messages.
+const NO_PATIENT = "__none__";
+
 export async function getWorkflowState(viewer: Viewer | null = null): Promise<WorkflowState> {
+  const isPatient = viewer?.role === "patient";
+  const own = isPatient ? { patientId: viewer!.patientId ?? NO_PATIENT } : {};
+  const messages = !viewer ? { recipient: NO_PATIENT }
+    : isPatient ? { recipient: "patient", patientId: viewer.patientId ?? NO_PATIENT }
+    : { recipient: { not: "patient" } };
   const [prescriptions, labs, appointments, referrals, homeVisits, barriers, notifications] = await Promise.all([
-    db.prescription.findMany({ orderBy: { createdAt: "desc" } }),
-    db.labRequest.findMany({ orderBy: { createdAt: "desc" } }),
-    db.appointment.findMany({ orderBy: { createdAt: "desc" } }),
-    db.referral.findMany({ orderBy: { createdAt: "desc" } }),
-    db.homeVisit.findMany({ orderBy: { createdAt: "desc" } }),
-    db.patientBarrier.findMany({ orderBy: { createdAt: "desc" }, take: 200 }),
-    db.notification.findMany({ orderBy: { createdAt: "desc" }, take: 30 }),
+    db.prescription.findMany({ where: own, orderBy: { createdAt: "desc" } }),
+    db.labRequest.findMany({ where: own, orderBy: { createdAt: "desc" } }),
+    db.appointment.findMany({ where: own, orderBy: { createdAt: "desc" } }),
+    db.referral.findMany({ where: own, orderBy: { createdAt: "desc" } }),
+    db.homeVisit.findMany({ where: own, orderBy: { createdAt: "desc" } }),
+    db.patientBarrier.findMany({ where: own, orderBy: { createdAt: "desc" }, take: 200 }),
+    db.notification.findMany({ where: messages, orderBy: { createdAt: "desc" }, take: 30 }),
   ]);
 
   return {
@@ -81,15 +91,15 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
     case "issuePrescription": {
       await db.prescription.create({ data: { patientId: args.patientId, patientName: args.patientName, items: args.items, pharmacy: args.pharmacy, issuedBy: args.issuedBy, status: "received" } });
       await notify("pharmacy", "In-app", `New prescription for ${args.patientName} (${args.patientId}) received from ${args.issuedBy}.`);
-      await notify("patient", "SMS", `Your prescription has been sent to ${args.pharmacy}. You will be notified when it is ready.`);
+      await notify("patient", "SMS", `Your prescription has been sent to ${args.pharmacy}. You will be notified when it is ready.`, args.patientId);
       break;
     }
     case "advanceRx": {
       const rx = await db.prescription.findUnique({ where: { id: args.id } });
       if (rx) {
         const n = next(RX_FLOW, rx.status as any);
-        if (n === "ready") await notify("patient", "WhatsApp", `Your medication (${rx.items}) from ${rx.pharmacy} is ready for collection.`);
-        if (n === "collected") await notify("patient", "In-app", `Medication collected from ${rx.pharmacy}. Your care journey has been updated.`);
+        if (n === "ready") await notify("patient", "WhatsApp", `Your medication (${rx.items}) from ${rx.pharmacy} is ready for collection.`, rx.patientId);
+        if (n === "collected") await notify("patient", "In-app", `Medication collected from ${rx.pharmacy}. Your care journey has been updated.`, rx.patientId);
         await db.prescription.update({ where: { id: rx.id }, data: { status: n } });
       }
       break;
@@ -105,7 +115,7 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
         const n = next(LAB_FLOW, l.status as any);
         if (n === "sent_to_doctor") {
           await notify("doctor", "In-app", `New laboratory results received for ${l.patientName} (${l.patientId}).`);
-          await notify("patient", "SMS", `Your laboratory results have been sent to your healthcare provider. Please follow their instructions regarding review.`);
+          await notify("patient", "SMS", `Your laboratory results have been sent to your healthcare provider. Please follow their instructions regarding review.`, l.patientId);
         }
         await db.labRequest.update({ where: { id: l.id }, data: { status: n, result: args.result ?? l.result } });
       }
@@ -113,7 +123,7 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
     }
     case "scheduleAppointment": {
       await db.appointment.create({ data: { patientId: args.patientId, patientName: args.patientName, purpose: args.purpose, whenAt: args.when, status: "scheduled" } });
-      await notify("patient", "SMS", `Dear ${args.patientName}, your follow-up appointment is scheduled for ${args.when}. Contact reception if you need to reschedule.`);
+      await notify("patient", "SMS", `Dear ${args.patientName}, your follow-up appointment is scheduled for ${args.when}. Contact reception if you need to reschedule.`, args.patientId);
       break;
     }
     case "setApptStatus": {
@@ -134,7 +144,7 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
       const toProvider = requireText(args.to, "Choose where to refer the patient.");
       const reason = requireText(args.reason, "Give a reason for the referral.");
       await db.referral.create({ data: { patientId, patientName: patient.name, fromProvider: requireText(args.from, "Missing referring provider."), toProvider, reason, status: "created" } });
-      await notify("patient", "SMS", `A referral has been created for you to ${toProvider}. You will be contacted with the next steps.`);
+      await notify("patient", "SMS", `A referral has been created for you to ${toProvider}. You will be contacted with the next steps.`, patientId);
       break;
     }
     case "advanceReferral": {
@@ -142,10 +152,10 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
       const r = await findReferral(args.id);
       if (r.stalled) throw new ActionError("Record how the barrier was addressed before moving this referral on.");
       const n = next(REFERRAL_FLOW, r.status as ReferralStatus);
-      if (n === "received") await notify("patient", "SMS", `${r.toProvider} has received your referral. They will contact you with an appointment.`);
+      if (n === "received") await notify("patient", "SMS", `${r.toProvider} has received your referral. They will contact you with an appointment.`, r.patientId);
       if (n === "attended") await notify("doctor", "In-app", `${r.patientName} attended their appointment at ${r.toProvider}.`);
-      if (n === "treatment") await notify("patient", "In-app", `Your treatment at ${r.toProvider} has started. Your care team will follow up.`);
-      if (n === "followup") await notify("patient", "In-app", `Your referral to ${r.toProvider} is complete, including follow-up.`);
+      if (n === "treatment") await notify("patient", "In-app", `Your treatment at ${r.toProvider} has started. Your care team will follow up.`, r.patientId);
+      if (n === "followup") await notify("patient", "In-app", `Your referral to ${r.toProvider} is complete, including follow-up.`, r.patientId);
       await db.referral.update({ where: { id: r.id }, data: { status: n } });
       break;
     }
@@ -167,7 +177,7 @@ export async function applyAction(action: string, args: any, viewer: Viewer): Pr
       const response = String(args.response ?? "").trim().slice(0, 300);
       if (!response) throw new ActionError("Describe how the barrier was addressed.");
       await db.referral.update({ where: { id: r.id }, data: { stalled: false, barrierResponse: response } });
-      await notify("patient", "SMS", `Your care team has arranged support: ${response}. Your referral to ${r.toProvider} continues.`);
+      await notify("patient", "SMS", `Your care team has arranged support: ${response}. Your referral to ${r.toProvider} continues.`, r.patientId);
       break;
     }
 
