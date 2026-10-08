@@ -277,6 +277,7 @@ await runStage(7, 'Patient', DESKTOP, async (page, step) => {
   await step('Notifications include the pharmacy and lab updates', async (p) => { await see(p, /ready for collection/); await see(p, /laboratory results have been sent/i); });
   await step('Patient sees only their own messages (privacy)', async (p) => {
     const card = p.locator('div.glass-panel').filter({ has: p.getByRole('heading', { name: 'My notifications' }) }).first();
+    await card.scrollIntoViewIfNeeded(); // so the screenshot shows the messages being checked
     const text = await card.innerText();
     must(!/Chipo|Blessing/.test(text), 'another patient\'s message is visible in this patient\'s notifications');
   });
